@@ -1,4 +1,5 @@
 from queue import PriorityQueue
+import heapq
 from utils.utils import (
     PathPlanMode,
     Heuristic,
@@ -10,7 +11,7 @@ from utils.utils import (
 )
 import numpy as np
 import numpy.typing as npt
-from typing import Optional, cast
+from typing import TypedDict, Optional
 import math
 
 
@@ -95,6 +96,13 @@ def uninformed_search(
     return path, expanded, frontier_sizes
 
 
+# Define custom types for clarity
+class NodeRecord(TypedDict):
+    cost: float
+    parent: Optional[tuple[int, int]]
+
+
+# Example function signature using the new type
 def a_star(
     grid: npt.NDArray[np.int_],
     start: tuple[int, int],
@@ -103,67 +111,65 @@ def a_star(
     heuristic: Heuristic,
     width: int,
 ) -> tuple[list[tuple[int, int]], list[tuple[int, int]], list[int]]:
-    """Performs A* search or beam search to find the
-    shortest path from start to goal in the gridworld.
+    """
+    Performs A* search or beam search to find the shortest path from start to goal in the gridworld.
 
     Args:
-        grid (numpy): NxN numpy array representing the world,
-        with terrain features encoded as integers.
+        grid (numpy.ndarray): NxN numpy array representing the world with terrain features encoded as integers.
         start (tuple): The starting cell of the path.
         goal (tuple): The ending cell of the path.
-        mode (PathPlanMode): The search strategy to use. Must
-        specify either PathPlanMode.A_STAR or
-        PathPlanMode.BEAM_SEARCH.
-        heuristic (Heuristic): The heuristic to use. Must
-        specify either Heuristic.MANHATTAN or Heuristic.EUCLIDEAN.
-        width (int): The width of the beam search. This should
-        only be used if mode is PathPlanMode.BEAM_SEARCH.
+        mode (PathPlanMode): The search strategy to use. Must specify either PathPlanMode.A_STAR or PathPlanMode.BEAM_SEARCH.
+        heuristic (Heuristic): The heuristic to use. Must specify either Heuristic.MANHATTAN or Heuristic.EUCLIDEAN.
+        width (int): The width of the beam search. Only used if mode is PathPlanMode.BEAM_SEARCH.
 
     Returns:
         path (list): A list of cells from start to goal.
         expanded (list): A list of expanded cells.
-        frontier_size (list): A list of integers containing
-        the size of the frontier at each iteration.
+        frontier_size (list): A list of integers containing the size of the frontier at each iteration.
     """
-    max_size = 0
-
-    if mode == PathPlanMode.BEAM_SEARCH:
-        max_size = width
+    max_size = width if mode == PathPlanMode.BEAM_SEARCH else 0
 
     frontier: PriorityQueue[tuple[float, tuple[int, int]]] = PriorityQueue()
     frontier.put((0, start))
     frontier_sizes: list[int] = []
     expanded: list[tuple[int, int]] = []
-    reached: dict[tuple[int, int], dict[str, float | Optional[tuple[int, int]]]] = {
+
+    # Now using NodeRecord for the reached dictionary
+    reached: dict[tuple[int, int], NodeRecord] = {
         start: {"cost": cost(grid, start), "parent": None}
     }
     curr = start
-
     path: list[tuple[int, int]] = []
-    while frontier.qsize() > 0:
+
+    while not frontier.empty():
+        frontier_sizes.append(frontier.qsize())
         curr = frontier.get()[1]
         if curr == goal:
-            # Traverse back up the tree to recreate the path
+            # Reconstruct path from goal back to start
             while curr:
                 path.insert(0, curr)
-                curr = cast(tuple[int, int], reached[curr]["parent"])
+                curr = reached[curr]["parent"]
             break
         else:
-            for child in expand(grid, curr):
-                child_cost = cost(grid, child)
-                g = (
-                    cast(float, reached[curr]["cost"])
-                    + child_cost
-                    + compute_heuristic(child, goal, heuristic)
-                )
-                if (
-                    child not in reached
-                    or g < cast(float, reached[child]["cost"])
-                    and (max_size == 0 or frontier.qsize() < max_size)
-                ):
-                    reached[child] = {"cost": g, "parent": curr}
-                    frontier.put((g, child))
             expanded.append(curr)
+            for child in expand(grid, curr):
+                c = cost(grid, child)
+                h = compute_heuristic(child, goal, heuristic)
+                g = reached[curr]["cost"] + c
+                f = g + h
+                if child not in reached or f < reached[child]["cost"]:
+                    if max_size == 0 or frontier.qsize() < max_size or child in reached:
+                        reached[child] = {"cost": f, "parent": curr}
+                        frontier.put((f, child))
+                    else:
+                        # If beam search is full, update if a cheaper path is found.
+                        for i in range(len(frontier.queue)):
+                            e = frontier.queue[i]
+                            if f < e[0]:
+                                reached[child] = {"cost": f, "parent": curr}
+                                frontier.queue[i] = (f, child)
+                                heapq.heapify(frontier.queue)  # Update the heap
+                                break
 
     return path, expanded, frontier_sizes
 
@@ -196,18 +202,9 @@ def local_search(
     return path
 
 
-def test_world(
-    world_id: int,
-    start: tuple[int, int],
-    goal: tuple[int, int],
-    h: int,
-    width: int,
-    animate: bool,
-    world_dir: str,
-):
+def test_world(world_id, start, goal, h, width, animate, world_dir):  # type: ignore
     print(f"Testing world {world_id}")
     grid = np.load(f"{world_dir}/world_{world_id}.npy")
-    modes = []
 
     if h == 0:
         modes = [PathPlanMode.DFS, PathPlanMode.BFS]
@@ -230,42 +227,30 @@ def test_world(
             print("Mode: LOCAL_SEARCH")
             print("Using Euclidean heuristic")
 
-    for mode in modes:
+    for mode in modes:  # type: ignore
 
         search_type, path, expanded, frontier_size = None, [], [], []
         if mode == PathPlanMode.DFS:
-            path, expanded, frontier_size = uninformed_search(grid, start, goal, mode)
+            path, expanded, frontier_size = uninformed_search(grid, start, goal, mode)  # type: ignore
             search_type = "DFS"
         elif mode == PathPlanMode.BFS:
-            path, expanded, frontier_size = uninformed_search(grid, start, goal, mode)
+            path, expanded, frontier_size = uninformed_search(grid, start, goal, mode)  # type: ignore
             search_type = "BFS"
         elif mode == PathPlanMode.A_STAR:
-            heuristic_val = Heuristic.MANHATTAN if h == 1 else Heuristic.EUCLIDEAN
-            path, expanded, frontier_size = a_star(
-                grid, start, goal, mode, heuristic_val, 0
-            )
+            path, expanded, frontier_size = a_star(grid, start, goal, mode, h, 0)  # type: ignore
+            search_type = "A_STAR"
         elif mode == PathPlanMode.BEAM_SEARCH:
-            heuristic_val = Heuristic.MANHATTAN if h == 1 else Heuristic.EUCLIDEAN
-            path, expanded, frontier_size = a_star(
-                grid, start, goal, mode, heuristic_val, width
-            )
+            path, expanded, frontier_size = a_star(grid, start, goal, mode, h, width)  # type: ignore
             search_type = "BEAM_A_STAR"
         elif mode == PathPlanMode.LOCAL_SEARCH:
-            path = local_search(
-                grid,
-                start,
-                goal,
-                Heuristic.MANHATTAN if h == 1 else Heuristic.EUCLIDEAN,
-            )
+            path = local_search(grid, start, goal, h)  # type: ignore
             search_type = "LOCAL_SEARCH"
 
         if search_type:
             print(f"Mode: {search_type}")
-            path_cost = 0.0
+            path_cost = 0
             for c in path:
-                c_cost = cost(grid, c)
-                # if c_cost is not None:
-                path_cost += c_cost
+                path_cost += cost(grid, c)
             print(f"Path length: {len(path)}")
             print(f"Path cost: {path_cost}")
             if frontier_size:
@@ -274,4 +259,4 @@ def test_world(
             if animate == 0 or animate == 1:
                 visualize_expanded(grid, start, goal, expanded, path, animation=animate)  # type: ignore
             else:
-                visualize_path(grid, start, goal, path)
+                visualize_path(grid, start, goal, path)  # type: ignore
