@@ -32,24 +32,24 @@ class Heuristic(IntEnum):
 
 
 def cost(
-    grid: npt.NDArray[np.int_],
+    grid: npt.ArrayLike,
     point: Tuple[int, int],
-) -> float:
+) -> int:
     if grid[point] == Environment.PRAIRIE:
-        return 1.0
+        return 1
     elif grid[point] == Environment.POND:
-        return 2.0
+        return 2
     elif grid[point] == Environment.DESERT:
         return 0.5
-    else:
+    elif grid[point] == Environment.MOUNTAIN:
         return np.inf
 
 
 def expand(
-    grid: npt.NDArray[np.int_],
+    grid: npt.ArrayLike,
     point: Tuple[int, int],
 ) -> List[Tuple[int, int]]:
-    children: list[tuple[int, int]] = []
+    children = []
     neighbors = [[0, 1], [1, 0], [0, -1], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]]
 
     x, y = point
@@ -66,12 +66,12 @@ def expand(
 
 
 def create_pond(
-    grid: npt.NDArray[np.int_],
+    grid: npt.ArrayLike,
     center_x: int,
     center_y: int,
     axis_x: int,
     axis_y: int,
-) -> npt.NDArray[np.int_]:
+) -> npt.ArrayLike:
     c_x, c_y, a, b = center_x, center_y, axis_x, axis_y
     for x in range(grid.shape[0]):
         for y in range(grid.shape[1]):
@@ -81,11 +81,11 @@ def create_pond(
 
 
 def create_valley(
-    grid: npt.NDArray[np.int_],
+    grid: npt.ArrayLike,
     center_x: int,
     center_y: int,
     radius: int,
-) -> npt.NDArray[np.int_]:
+) -> npt.ArrayLike:
     c_x, c_y, r_2 = center_x, center_y, radius
     for x in range(grid.shape[0]):
         for y in range(grid.shape[1]):
@@ -95,21 +95,21 @@ def create_valley(
 
 
 def create_mountain(
-    grid: npt.NDArray[np.int_],
+    grid: npt.ArrayLike,
     lower_x: int,
     upper_x: int,
     lower_y: int,
     upper_y: int,
-) -> npt.NDArray[np.int_]:
+) -> npt.ArrayLike:
     grid[lower_x:upper_x, lower_y:upper_y] = Environment.MOUNTAIN
     return grid
 
 
 def highlight_start_and_end(
-    grid: npt.NDArray[np.int_],
+    grid: npt.ArrayLike,
     cell: Tuple[int, int],
     val: int,
-) -> npt.NDArray[np.int_]:
+) -> npt.ArrayLike:
     c_x, c_y = cell
     for x in range(grid.shape[0]):
         for y in range(grid.shape[1]):
@@ -122,10 +122,10 @@ def highlight_start_and_end(
 def sample_world_1(
     width: int = 100,
     height: int = 100,
-) -> tuple[npt.NDArray[np.int_], tuple[int, int], tuple[int, int]]:
+) -> npt.ArrayLike:
     start = (10, 10)
     goal = (87, 87)
-    grid_world = np.zeros((width, height), dtype=np.int_)
+    grid_world = np.zeros((width, height))
 
     grid_world = create_pond(grid_world, 87, 40, 12, 12)
 
@@ -142,10 +142,10 @@ def sample_world_1(
 def sample_world_2(
     width: int = 100,
     height: int = 100,
-) -> tuple[npt.NDArray[np.int_], tuple[int, int], tuple[int, int]]:
+) -> npt.ArrayLike:
     start = (10, 10)
     goal = (90, 90)
-    grid_world = np.zeros((width, height), dtype=np.int_)
+    grid_world = np.zeros((width, height))
 
     grid_world = create_pond(grid_world, 37, 10, 20, 7)
     grid_world = create_pond(grid_world, 49, 22, 7, 7)
@@ -168,10 +168,10 @@ def sample_world_2(
 def sample_world_3(
     width: int = 100,
     height: int = 100,
-) -> tuple[npt.NDArray[np.int_], tuple[int, int], tuple[int, int]]:
+) -> npt.ArrayLike:
     start = (10, 10)
     goal = (90, 90)
-    grid_world = np.zeros((width, height), dtype=np.int_)
+    grid_world = np.zeros((width, height))
 
     grid_world = create_pond(grid_world, 25, 10, 7, 7)
     grid_world = create_pond(grid_world, 30, 10, 7, 7)
@@ -209,10 +209,10 @@ def sample_world_3(
 def sample_world_4(
     width: int = 50,
     height: int = 50,
-) -> tuple[npt.NDArray[np.int_], tuple[int, int], tuple[int, int]]:
+) -> npt.ArrayLike:
     start = (24, 24)
     goal = (43, 42)
-    grid_world = np.zeros((width, height), dtype=np.int_)
+    grid_world = np.zeros((width, height))
 
     grid_world = create_pond(grid_world, 7, 42, 7, 7)
     grid_world = create_pond(grid_world, 40, 24, 8, 5)
@@ -232,9 +232,9 @@ def sample_world_4(
     return grid_world, start, goal
 
 
-def visualize_grid_world(grid: npt.NDArray[np.int_]) -> None:
+def visualize_grid_world(grid: npt.ArrayLike) -> None:
 
-    _, ax = plt.subplots()  # type: ignore
+    _, ax = plt.subplots()
     grid_world = np.copy(grid)
 
     cmap = ListedColormap(
@@ -246,7 +246,7 @@ def visualize_grid_world(grid: npt.NDArray[np.int_]) -> None:
         ]
     )
 
-    ax.imshow(grid_world, cmap=cmap)  # type: ignore
+    ax.imshow(grid_world, cmap=cmap)
     legend_elements = [
         Patch(facecolor="#006600", label="Prairie"),
         Patch(facecolor="#4d94ff", label="Pond"),
@@ -254,22 +254,24 @@ def visualize_grid_world(grid: npt.NDArray[np.int_]) -> None:
         Patch(facecolor="#333333", label="Mountain"),
     ]
 
-    ax.set_title("Grid World Visualization")  # type: ignore
-    ax.legend(handles=legend_elements, loc="upper center", bbox_to_anchor=(0.5, 0), ncol=4)  # type: ignore
-    ax.set_xticklabels([])  # type: ignore
-    ax.set_yticklabels([])  # type: ignore
-    plt.show()  # type: ignore
+    ax.set_title(f"Grid World Visualization")
+    ax.legend(
+        handles=legend_elements, loc="upper center", bbox_to_anchor=(0.5, 0), ncol=4
+    )
+    ax.set_xticklabels([])
+    ax.set_yticklabels([])
+    plt.show()
 
 
 def visualize_path(
-    grid: npt.NDArray[np.int_],
+    grid: npt.ArrayLike,
     start: Tuple[int, int],
     goal: Tuple[int, int],
-    path: List[Tuple[int, int]],
+    path: Path,
     blit: bool = False,
 ) -> None:
 
-    fig, ax = plt.subplots()  # type: ignore
+    fig, ax = plt.subplots()
     grid_world = np.copy(grid)
 
     cmap = ListedColormap(
@@ -282,10 +284,10 @@ def visualize_path(
         ]
     )
 
-    grid_world = highlight_start_and_end(grid_world, start, cmap.N - 1)
-    grid_world = highlight_start_and_end(grid_world, goal, cmap.N - 1)
+    grid_world = highlight_start_and_end(grid_world, start, len(cmap.colors) - 1)
+    grid_world = highlight_start_and_end(grid_world, goal, len(cmap.colors) - 1)
 
-    ax.imshow(grid_world, cmap=cmap)  # type: ignore
+    ax.imshow(grid_world, cmap=cmap)
 
     legend_elements = [
         Patch(facecolor="#006600", label="Prairie"),
@@ -294,9 +296,9 @@ def visualize_path(
         Patch(facecolor="#333333", label="Mountain"),
     ]
 
-    (path_line,) = ax.plot([], [], color="#FF0000", label="Path")  # type: ignore
+    (path_line,) = ax.plot([], [], color="#FF0000", label="Path")
 
-    def update_path(frame: int):
+    def update_path(frame):
         if frame < len(path):
             x, y = zip(*path[: frame + 1])
             path_line.set_data(y, x)
@@ -307,15 +309,17 @@ def visualize_path(
     )
     legend_elements.append(Patch(facecolor="#FF0000", label="Path"))
 
-    ax.set_title(f"Grid World Path Planning Result")  # type: ignore
-    ax.legend(handles=legend_elements, loc="upper center", bbox_to_anchor=(0.5, 0), ncol=5)  # type: ignore
-    ax.set_xticklabels([])  # type: ignore
-    ax.set_yticklabels([])  # type: ignore
-    plt.show()  # type: ignore
+    ax.set_title(f"Grid World Path Planning Result")
+    ax.legend(
+        handles=legend_elements, loc="upper center", bbox_to_anchor=(0.5, 0), ncol=5
+    )
+    ax.set_xticklabels([])
+    ax.set_yticklabels([])
+    plt.show()
 
 
 def visualize_expanded(
-    grid: npt.NDArray[np.int_],
+    grid: npt.ArrayLike,
     start: Tuple[int, int],
     goal: Tuple[int, int],
     expanded: List[Tuple[int, int]],
@@ -323,7 +327,7 @@ def visualize_expanded(
     animation: bool = True,
 ) -> None:
 
-    fig, ax = plt.subplots()  # type: ignore
+    fig, ax = plt.subplots()
     grid_world = np.copy(grid)
 
     cmap = ListedColormap(
@@ -336,24 +340,24 @@ def visualize_expanded(
             "#00AA00",  # Start & Goal
         ]
     )
-    color_index = len(cmap.colors) - 1  # type: ignore
-    grid_world = highlight_start_and_end(grid_world, start, color_index)
-    grid_world = highlight_start_and_end(grid_world, goal, color_index)
+
+    grid_world = highlight_start_and_end(grid_world, start, len(cmap.colors) - 1)
+    grid_world = highlight_start_and_end(grid_world, goal, len(cmap.colors) - 1)
 
     legend_elements = []
 
     if path:
         path_x, path_y = zip(*path)
-        (gw,) = ax.plot(path_y, path_x, color="#FF0000", label="Path")  # type: ignore
-        legend_elements.append(Patch(facecolor="#FF0000", label="Path"))  # type: ignore
+        (gw,) = ax.plot(path_y, path_x, color="#FF0000", label="Path")
+        legend_elements.append(Patch(facecolor="#FF0000", label="Path"))
 
     # dumb bug fix
     fix_bug = grid_world[0, -1]
     grid_world[0, 3] = 4
-    gw = ax.imshow(grid_world, cmap=cmap)  # type: ignore
+    gw = ax.imshow(grid_world, cmap=cmap)
     grid_world[0, 3] = fix_bug
 
-    legend_elements.extend(  # type: ignore
+    legend_elements.extend(
         [
             Patch(facecolor="#006600", label="Prairie"),
             Patch(facecolor="#4d94ff", label="Pond"),
@@ -361,19 +365,19 @@ def visualize_expanded(
             Patch(facecolor="#333333", label="Mountain"),
             Patch(facecolor="#86592d", label="Expanded"),
         ]
-    )  # type: ignore
+    )
 
     expanded = [s for s in expanded if len(s) > 0]
     all_x, all_y = [], []
 
     if animation:
 
-        def update_expanded(frame: int):
+        def update_expanded(frame):
             if frame < len(expanded):
                 expanded_grid_world = np.copy(grid_world)
                 x, y = expanded[frame]
-                all_x.append(x)  # type: ignore
-                all_y.append(y)  # type: ignore
+                all_x.append(x)
+                all_y.append(y)
                 expanded_grid_world[all_x, all_y] = Environment.EXPANDED
                 gw.set_array(expanded_grid_world)
             return [gw]
@@ -388,14 +392,16 @@ def visualize_expanded(
     else:
         for s in expanded:
             x, y = s
-            all_x.append(x)  # type: ignore
-            all_y.append(y)  # type: ignore
+            all_x.append(x)
+            all_y.append(y)
         grid_world[all_x, all_y] = Environment.EXPANDED
         gw.set_array(grid_world)
 
-    ax.set_title(f"Grid World Expanded Cells Result")  # type: ignore
-    ax.legend(handles=legend_elements, loc="upper center", bbox_to_anchor=(0.5, 0), ncol=3)  # type: ignore
+    ax.set_title(f"Grid World Expanded Cells Result")
+    ax.legend(
+        handles=legend_elements, loc="upper center", bbox_to_anchor=(0.5, 0), ncol=3
+    )
 
-    ax.set_xticklabels([])  # type: ignore
-    ax.set_yticklabels([])  # type: ignore
-    plt.show()  # type: ignore
+    ax.set_xticklabels([])
+    ax.set_yticklabels([])
+    plt.show()

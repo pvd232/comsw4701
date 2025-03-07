@@ -40,25 +40,17 @@ def main():
     print("Testing Grid World Path Planning...")
     print(f"Loading grid world file from path: {args.world_path}")
 
-    from typing import Tuple, List
-
-    start: Tuple[int, int]
-    goal: Tuple[int, int]
-    start_goal: List[Tuple[Tuple[int, int], Tuple[int, int]]] = [
-        ((10, 10), (87, 87)),
-        ((10, 10), (90, 90)),
-        ((10, 10), (90, 90)),
-        ((24, 24), (43, 42)),
+    start_goal = [
+        [(10, 10), (87, 87)],
+        [(10, 10), (90, 90)],
+        [(10, 10), (90, 90)],
+        [(24, 24), (43, 42)],
     ]
 
     if 0 < args.world_id < 4:
-        from typing import cast
-
-        start, goal = cast(
-            Tuple[Tuple[int, int], Tuple[int, int]], start_goal[args.world_id - 1]
-        )
+        start, goal = start_goal[args.world_id - 1]
     else:
-        start, goal = ((0, 0), (0, 0))
+        start, goal = [(0, 0), (0, 0)]
     pf.test_world(args.world_id, start, goal, args.e, args.b, args.a, args.world_path)
 
     print("Done")
