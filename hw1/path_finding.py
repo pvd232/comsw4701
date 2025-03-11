@@ -28,7 +28,6 @@ def compute_heuristic(
 
     Returns:
         h (float): The heuristic value.
-
     """
     if heuristic == Heuristic.MANHATTAN:
         # Scale value by 1/2 to account for diagonal distance being 1, not 2
@@ -74,25 +73,26 @@ def uninformed_search(
     path: list[tuple[int, int]] = []
 
     # Check to make sure frontier has nodes to expand
-    while len(frontier):
+    while len(frontier) and curr != goal:
         frontier_sizes.append(len(frontier))
         curr: tuple[int, int] = frontier.pop()
-        if curr == goal:
-            # Traverse back up the tree to recreate the path
-            curr_node: Optional[tuple[int, int]] = curr
-            while curr_node is not None:
-                path.insert(0, curr_node)
-                curr_node = reached[curr_node]
-            break
-        else:
-            expanded.append(curr)
-            for child in expand(grid, curr):
-                if child not in reached and grid[child] != Environment.MOUNTAIN:
-                    reached[child] = curr  # Key is child, value is parent
-                    if mode == PathPlanMode.DFS:
-                        frontier.append(child)
-                    else:
-                        frontier.insert(0, child)
+    if curr == goal:
+        # Traverse back up the tree to recreate the path
+        curr_node: Optional[tuple[int, int]] = curr
+        while curr_node is not None:
+            path.insert(0, curr_node)
+            curr_node = reached[curr_node]
+    else:
+        expanded.append(curr)
+        for child in expand(grid, curr):
+            if (
+                child not in reached and grid[child] != Environment.MOUNTAIN
+            ):  # Can't expand mountain state
+                reached[child] = curr  # Key is child, value is parent
+                if mode == PathPlanMode.DFS:
+                    frontier.append(child)
+                else:
+                    frontier.insert(0, child)
     return path, expanded, frontier_sizes
 
 
@@ -141,35 +141,33 @@ def a_star(
     curr = start
     path: list[tuple[int, int]] = []
 
-    while not frontier.empty():
+    while not frontier.empty() and curr != goal:
         frontier_sizes.append(frontier.qsize())
         curr = frontier.get()[1]
-        if curr == goal:
-            # Reconstruct path from goal back to start
-            while curr:
-                path.insert(0, curr)
-                curr = reached[curr]["parent"]
-            break
-        else:
-            expanded.append(curr)
-            for child in expand(grid, curr):
-                c = cost(grid, child)
-                h = compute_heuristic(child, goal, heuristic)
-                g = reached[curr]["cost"] + c
-                f = g + h
-                if child not in reached or f < reached[child]["cost"]:
-                    if max_size == 0 or frontier.qsize() < max_size or child in reached:
+    if curr == goal:
+        # Reconstruct path from goal back to start
+        while curr:
+            path.insert(0, curr)
+            curr = reached[curr]["parent"]
+    else:
+        expanded.append(curr)
+        for child in expand(grid, curr):
+            c, h = cost(grid, child), compute_heuristic(child, goal, heuristic)
+            g = reached[curr]["cost"] + c
+            f = g + h
+            if child not in reached or f < reached[child]["cost"]:
+                if max_size == 0 or frontier.qsize() < max_size or child in reached:
+                    reached[child] = {"cost": f, "parent": curr}
+                    frontier.put((f, child))
+                else:
+                    # If beam search is full, update if a cheaper path is found.
+                    i = 0
+                    while i < len(frontier.queue) - 1 and f > frontier.queue[i][0]:
+                        i+=1
+                    if f < frontier.queue[i][0]:
                         reached[child] = {"cost": f, "parent": curr}
-                        frontier.put((f, child))
-                    else:
-                        # If beam search is full, update if a cheaper path is found.
-                        for i in range(len(frontier.queue)):
-                            e = frontier.queue[i]
-                            if f < e[0]:
-                                reached[child] = {"cost": f, "parent": curr}
-                                frontier.queue[i] = (f, child)
-                                heapq.heapify(frontier.queue)  # Update the heap
-                                break
+                        frontier.queue[i] = (f, child)
+                        heapq.heapify(frontier.queue)  # Update the heap
 
     return path, expanded, frontier_sizes
 
@@ -196,10 +194,21 @@ def local_search(
     """
 
     path = [start]
-
-    # TODO:
-
-    return path
+    curr = start
+    curr_h = compute_heuristic(curr, goal, heuristic)
+    prev_h = float("inf")
+    while curr_h < prev_h and curr != goal:
+        prev_h = curr_h
+        for child in expand(grid, curr):
+            h = compute_heuristic(child, goal, heuristic)
+            if h < curr_h:  # keep updating curr and curr_h as cheaper paths are found
+                curr_h = h
+                curr = child
+        path.append(curr)
+    if curr == goal:
+        return path
+    else:
+        return []
 
 
 def test_world(world_id, start, goal, h, width, animate, world_dir):  # type: ignore
