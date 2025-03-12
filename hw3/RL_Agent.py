@@ -22,7 +22,7 @@ class RL_Agent(object):
         for state in states:
             for action in valid_actions(state):
                 self.Qvalues[(state, action)] = parameters["Q0"]
-
+        print(self.epsilon)
 
     def setEpsilon(self, epsilon):
         self.epsilon = epsilon
@@ -33,9 +33,8 @@ class RL_Agent(object):
     def setLearningRate(self, alpha):
         self.alpha = alpha
 
-
     def choose_action(self, state, valid_actions):
-        """ Choose an action using epsilon-greedy selection.
+        """Choose an action using epsilon-greedy selection.
 
         Args:
             state (tuple): Current robot state.
@@ -43,9 +42,22 @@ class RL_Agent(object):
         Returns:
             action (string): Action chosen from valid_actions.
         """
-        # TODO
-        return None
 
+        r = random.randint(0, 10)
+        if r / 10 <= self.epsilon:
+            q_max = float("-inf")
+            a_max = None
+            for a in valid_actions:
+                q = self.Qvalues[(state, a)]
+                if q > q_max:
+                    q_max = q
+                    a_max = a
+            return a_max
+        else:
+            a_l = len(valid_actions) - 1
+            r2 = random.randint(0, a_l)
+            a = valid_actions[r2]
+            return a
 
     def update(self, state, action, reward, successor, valid_actions):
         """ Update self.Qvalues for (state, action) given reward and successor.
@@ -57,5 +69,13 @@ class RL_Agent(object):
             successor (tuple): Successor state.
             valid_actions (list): A list of possible actions at successor state.
         """
-        # TODO
-        pass
+        if successor == None:
+            self.Qvalues[(state, action)] = 0
+        else:
+            q1 = self.Qvalues[(state, action)]
+            a2 = self.choose_action(successor, valid_actions)
+            learn = self.alpha * (
+                reward + (self.gamma * self.Qvalues[(successor, a2)]) - q1
+            )
+            q2 = q1 + learn
+            self.Qvalues[(state, action)] = q2

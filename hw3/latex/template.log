@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.2.22)  11 MAR 2025 00:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.2.22)  11 MAR 2025 11:57
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -196,8 +196,7 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \float@box=\box56
 \@float@everytoks=\toks25
 \@floatcapt=\box57
-)
-No file template.aux.
+) (./template.aux)
 \openout1 = `template.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
@@ -214,7 +213,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
 LaTeX Font Info:    ... okay on input line 11.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
 LaTeX Font Info:    ... okay on input line 11.
-(/usr/local/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+ (/usr/local/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count289
 \scratchdimen=\dimen171
@@ -251,58 +250,66 @@ Package pdftex.def Info: images/Figure_1.jpg  used on input line 21.
 (pdftex.def)             Requested size: 328.82707pt x 219.04709pt.
  [1
 
-{/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./images/Figure_1.jpg>] [2] [3] [4] [5]
-/Users/machina/Developer/ai/hw3/latex/template.tex:382: Undefined control sequence.
-l.382 \parapgrah
-                *{Episode 3: \(0 \to 2 \to 5 \to \text{done}\), Reward = 5}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+{/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./images/Figure_1.jpg>] [2]
+Overfull \hbox (39.74939pt too wide) detected at line 196
+[]
+ []
 
-/Users/machina/Developer/ai/hw3/latex/template.tex:405: Undefined control sequence.
-l.405 \parapgrah
-                *{Episode 4: \(0 \to 3 \to 5 \to \text{done}\), Reward = 5}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-[6]
-/Users/machina/Developer/ai/hw3/latex/template.tex:426: Undefined control sequence.
-l.426 \parapgrah
-                *{Episode 5: \(0 \to 4 \to 6 \to \text{done}\), Reward = 6}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-[7] (./template.aux)
+[3] [4] [5] [6] [7]
+<images/Figure_2.png, id=37, 594.7821pt x 545.6385pt>
+File: images/Figure_2.png Graphic file (type png)
+<use images/Figure_2.png>
+Package pdftex.def Info: images/Figure_2.png  used on input line 444.
+(pdftex.def)             Requested size: 375.80544pt x 344.7698pt.
+ [8 <./images/Figure_2.png>]
+<images/Figure_3.png, id=43, 565.1514pt x 545.6385pt>
+File: images/Figure_3.png Graphic file (type png)
+<use images/Figure_3.png>
+Package pdftex.def Info: images/Figure_3.png  used on input line 458.
+(pdftex.def)             Requested size: 375.80544pt x 362.84505pt.
+ [9 <./images/Figure_3.png>]
+<images/Figure_4.png, id=48, 462.528pt x 346.896pt>
+File: images/Figure_4.png Graphic file (type png)
+<use images/Figure_4.png>
+Package pdftex.def Info: images/Figure_4.png  used on input line 478.
+(pdftex.def)             Requested size: 375.80544pt x 281.86818pt.
+ [10 <./images/Figure_4.png>]
+<images/Figure_5.png, id=53, 462.528pt x 346.896pt>
+File: images/Figure_5.png Graphic file (type png)
+<use images/Figure_5.png>
+Package pdftex.def Info: images/Figure_5.png  used on input line 494.
+(pdftex.def)             Requested size: 375.80544pt x 281.86818pt.
+ [11 <./images/Figure_5.png>]
+<images/Figure_6.png, id=58, 462.528pt x 346.896pt>
+File: images/Figure_6.png Graphic file (type png)
+<use images/Figure_6.png>
+Package pdftex.def Info: images/Figure_6.png  used on input line 511.
+(pdftex.def)             Requested size: 375.80544pt x 281.86818pt.
+ [12 <./images/Figure_6.png>]
+<images/Figure_7.png, id=63, 462.528pt x 346.896pt>
+File: images/Figure_7.png Graphic file (type png)
+<use images/Figure_7.png>
+Package pdftex.def Info: images/Figure_7.png  used on input line 527.
+(pdftex.def)             Requested size: 375.80544pt x 281.86818pt.
+ [13 <./images/Figure_7.png>] [14] (./template.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  ) 
 Here is how much of TeX's memory you used:
- 5508 strings out of 474116
- 94679 string characters out of 5743682
- 1940187 words of memory out of 5000000
- 27824 multiletter control sequences out of 15000+600000
+ 5554 strings out of 474116
+ 95779 string characters out of 5743682
+ 1946187 words of memory out of 5000000
+ 27868 multiletter control sequences out of 15000+600000
  566723 words of font info for 68 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 79i,11n,93p,351b,330s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on template.pdf (7 pages, 444489 bytes).
+ 79i,12n,93p,364b,326s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on template.pdf (14 pages, 666378 bytes).
 PDF statistics:
- 89 PDF objects out of 1000 (max. 8388607)
- 54 compressed objects within 1 object stream
+ 119 PDF objects out of 1000 (max. 8388607)
+ 67 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
 

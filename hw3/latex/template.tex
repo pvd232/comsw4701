@@ -152,7 +152,6 @@ to reach their optimal terminal value, making them more sensitive to a decrease 
 In contrast, states 4, 5, and 6 have such high starting values that their optimal values are secured by choosing the \textit{done} action at the outset,
 making them fully insensitive to downward changes in $\gamma$.
 
-\newpage
 %Problem 2
 \section*{Problem 2}
 \subsection*{2.a)}
@@ -161,35 +160,40 @@ then stopping, thus the $\pi^*$ will return the draw actions for states less tha
 
 \subsection*{2.b)}
 
-\[
-V^\pi(s) = \sum_{s'} T\bigl(s, \pi(s), s'\bigr)\,\Bigl[R\bigl(s, \pi(s), s'\bigr) + \gamma\,V^\pi(s')\Bigr].
-\]
-
-\begin{flushleft}
-Performing value iteration will uncover $\pi^*$ and $V^*$.
-Starting with $V^*$:
-\end{flushleft}
-\begin{table}[h]
-\centering
-\renewcommand{\arraystretch}{1.5} % Increases row height for better readability
-\caption{Value Iteration for $V^*$ and $\pi^*$}
-\label{tab:val_iteration}
-\vspace{1em}
-
-\begin{tabular}{c|l}
-\hline
-\textbf{State} & \textbf{Value Iteration Calculations} \\
-\hline
-
-3 &
-$V_1(3) = \max \left\{ (\frac{2}{5})^1 \cdot \frac{5+6}{3}, 3 \right\}
-\Rightarrow \max \left\{ 22/15 , 3  \right\}
-\Rightarrow 3$ \\
-\hline
-\end{tabular}
-\end{table}
-
-\section*{Problem 2}
+\begin{align*}
+  V_{i+1}(0) &= \max\Biggl\{
+    T(0,\text{stop},\text{done})\Bigl[R(0,\text{stop},\text{done}) + 0.9\,V_i(\text{done})\Bigr], \\
+    &\quad\; T(0,\text{draw},2)\Bigl[R(0,\text{draw},2) + 0.9\,V_i(2)\Bigr] \\
+    &\quad\; +\; T(0,\text{draw},3)\Bigl[R(0,\text{draw},3) + 0.9\,V_i(3)\Bigr] \\
+    &\quad\; +\; T(0,\text{draw},4)\Bigl[R(0,\text{draw},4) + 0.9\,V_i(4)\Bigr]
+  \Biggr\}, \\[1ex]
+  V_{i+1}(2) &= \max\Biggl\{
+    T(2,\text{stop},\text{done})\Bigl[R(2,\text{stop},\text{done}) + 0.9\,V_i(\text{done})\Bigr], \\
+    &\quad\; T(2,\text{draw},4)\Bigl[R(2,\text{draw},4) + 0.9\,V_i(4)\Bigr] \\
+    &\quad\; +\; T(2,\text{draw},5)\Bigl[R(2,\text{draw},5) + 0.9\,V_i(5)\Bigr] \\
+    &\quad\; +\; T(2,\text{draw},6)\Bigl[R(2,\text{draw},6) + 0.9\,V_i(6)\Bigr]
+  \Biggr\}, \\[1ex]
+  V_{i+1}(3) &= \max\Biggl\{
+    T(3,\text{stop},\text{done})\Bigl[R(3,\text{stop},\text{done}) + 0.9\,V_i(\text{done})\Bigr], \\
+    &\quad\; T(3,\text{draw},5)\Bigl[R(3,\text{draw},5) + 0.9\,V_i(5)\Bigr] \\
+    &\quad\; +\; T(3,\text{draw},6)\Bigl[R(3,\text{draw},6) + 0.9\,V_i(6)\Bigr] \\
+    &\quad\; +\; T(3,\text{draw},0)\Bigl[R(3,\text{draw},0) + 0.9\,V_i(0)\Bigr]
+  \Biggr\}, \\[1ex]
+  V_{i+1}(4) &= \max\Biggl\{
+    T(4,\text{stop},\text{done})\Bigl[R(4,\text{stop},\text{done}) + 0.9\,V_i(\text{done})\Bigr], \\
+    &\quad\; T(4,\text{draw},6)\Bigl[R(4,\text{draw},6) + 0.9\,V_i(6)\Bigr] \\
+    &\quad\; +\; T(4,\text{draw},0)\Bigl[R(4,\text{draw},0) + 0.9\,V_i(0)\Bigr] \\
+    &\quad\; +\; T(4,\text{draw},0)\Bigl[R(4,\text{draw},0) + 0.9\,V_i(0)\Bigr]
+  \Biggr\}, \\[1ex]
+  V_{i+1}(5) &= \max\Bigl\{
+    T(5,\text{stop},\text{done})\Bigl[R(5,\text{stop},\text{done}) + 0.9\,V_i(\text{done})\Bigr],\;
+    T(5,\text{draw},0)\Bigl[R(5,\text{draw},0) + 0.9\,V_i(0)\Bigr]
+  \Bigr\}, \\[1ex]
+  V_{i+1}(6) &= \max\Bigl\{
+    T(6,\text{stop},\text{done})\Bigl[R(6,\text{stop},\text{done}) + 0.9\,V_i(\text{done})\Bigr],\;
+    T(6,\text{draw},0)\Bigl[R(6,\text{draw},0) + 0.9\,V_i(0)\Bigr]
+  \Bigr\}.
+\end{align*}
 \subsection*{2.c)}
 
 \paragraph{Iteration 1 (\(V_1\))}
@@ -364,87 +368,178 @@ V(6) = 6.
 V(4) = \frac{0 + 6}{2} = 3
 \]
 
-The order in which the episodes are observed does not affect the estimated state values. This is because the value of each state is estimated independently, 
-only using the states and rewards witnessed within the episode. The estimated state values of each episode are incremently averaged togther, 
-which also is not affected by the order, being a commutative operation.
+The order in which the episodes are observed does not affect the estimated state values. This is because Monte-Carlo prediction computes the value of
+each state by averaging the rewards of each episode in which the state was visited. Because computing a simple average is a commutative operation, order
+of the episodes does not impact the final estimated value of the states.
 
 \subsection*{3.b)}
-\paragraph*{TD(0) Updates for Episodes 3, 4, and 5}
 
-In this mini-blackjack scenario, we use temporal-difference learning with
-$\alpha = 0.5$ and $\gamma = 1$. After the first two episodes (both yielding
-reward 0), all state values remain 0:
-
+\paragraph{After Episode 3}
 \[
-V(0) = V(2) = V(3) = V(4) = V(5) = V(6) = 0.
+V(0) = \frac{0 + 0 + 5}{3} = \frac{5}{3},\quad
+V(2) = \frac{0 + 5}{2} = 2.5,\quad
+V(5) = \frac{5}{1} = 5.
 \]
 
-\paragraph{Episode 3: \(0 \to 2 \to 5 \to \text{done}\), Reward = 5}
-For each transition $(s \to s', r)$, we apply:
+\paragraph{After Episode 4}
 \[
-V(s) \leftarrow V(s) + \alpha \bigl[r + V(s') - V(s)\bigr].
+V(0) = \frac{0 + 0 + 5 + 5}{4} = \frac{10}{4} = 2.5,\quad
+V(3) = \frac{0 + 5}{2} = 2.5,\quad
+V(5) = \frac{5 + 5}{2} = 5.
 \]
-\begin{enumerate}
-\item \(0 \to 2\), \(r=0\):
-\[
-V(0) = 0 + 0.5 \bigl[0 + V(2) - 0\bigr] = 0.
-\]
-\item \(2 \to 5\), \(r=0\):
-\[
-V(2) = 0 + 0.5 \bigl[0 + V(5) - 0\bigr] = 0.
-\]
-\item \(5 \to \text{done}\), \(r=5\):
-\[
-V(5) = 0 + 0.5 \bigl[5 + V(\text{done}) - 0\bigr] 
-      = 0.5 \times 5 
-      = 2.5.
-\]
-\end{enumerate}
-Thus, after Episode~3: \(V(5) = 2.5\), and all other states remain 0.
 
-\paragraph*{Episode 4: \(0 \to 3 \to 5 \to \text{done}\), Reward = 5}
-\begin{enumerate}
-\item \(0 \to 3\), \(r=0\):
+\paragraph{After Episode 5 (Final)}
 \[
-V(0) = 0 + 0.5 \bigl[0 + V(3) - 0\bigr] = 0.
+V(0) = \frac{0 + 0 + 5 + 5 + 6}{5} = 3.2,\quad
+V(4) = \frac{0 + 6}{2} = 3.0,\quad
+V(6) = \frac{6}{1} = 6.
 \]
-\item \(3 \to 5\), \(r=0\):
-\[
-V(3) = 0 + 0.5 \bigl[0 + V(5) - 0\bigr]
-      = 0.5 \times 2.5
-      = 1.25.
-\]
-\item \(5 \to \text{done}\), \(r=5\):
-\[
-V(5) = 2.5 + 0.5 \bigl[5 + V(\text{done}) - 2.5\bigr]
-      = 2.5 + 0.5 \times 2.5
-      = 3.75.
-\]
-\end{enumerate}
-Hence, after Episode~4: \(V(3) = 1.25\), \(V(5) = 3.75\), and the rest remain 0.
+(States $2$, $3$, and $5$ do not appear in Episode 5, so their values remain $2.5$, $2.5$, and $5$, respectively.)
 
-\paragraph*{Episode 5: \(0 \to 4 \to 6 \to \text{done}\), Reward = 6}
-\begin{enumerate}
-\item \(0 \to 4\), \(r=0\):
+\paragraph*{Final Values}
 \[
-V(0) = 0 + 0.5 \bigl[0 + V(4) - 0\bigr] = 0.
+\boxed{
+  V(0) = 3.2,\quad
+  V(2) = 2.5,\quad
+  V(3) = 2.5,\quad
+  V(4) = 3.0,\quad
+  V(5) = 5.0,\quad
+  V(6) = 6.0.
+}
 \]
-\item \(4 \to 6\), \(r=0\):
-\[
-V(4) = 0 + 0.5 \bigl[0 + V(6) - 0\bigr] = 0.
-\]
-\item \(6 \to \text{done}\), \(r=6\):
-\[
-V(6) = 0 + 0.5 \bigl[6 + V(\text{done}) - 0\bigr]
-      = 3.
-\]
-\end{enumerate}
-So, after Episode~5: \(V(6) = 3\), \(V(5) = 3.75\), \(V(3) = 1.25\), 
-and \(V(4) = V(2) = V(0) = 0\).
+These are the Monte Carlo estimates of the state values after processing all five episodes.
 
-\section*{Conclusion}
-These updates match the TD(0) learning rule with $\alpha=0.5$ and $\gamma=1$ for
-the given episodes. Notably, $V(5)$ increases from 0 to 2.5, then to 3.75,
-$V(3)$ becomes 1.25, and $V(6)$ becomes 3 by the end of Episode~5.
+\begin{flushleft}
+  In TD learning the order in which the episodes are observed does affect the estimated state values.
+  This is because TD learning updates states incrementally using the current estimate of the successor state, thus, the value of a state
+  will immidiately impact the value of the succesor state, as determined by their relative order.
+\end{flushleft}
 
+\subsection*{3.c)}
+The Q values learned by SARSA and Q-learning can differ in states where the behavior policy may sometimes select suboptimal actions.
+This divergence arises because of the way the two algorithms update their Q values. Q-learning is an off-policy method.
+It updates the Q value using the maximum possible Q value in the next state, that is,
+it always uses the action that maximizes the expected return (according to the target policy).
+Therefore, even if the behavior policy explores, Q-learning’s updates always assume that the best action is taken next.
+
+SARSA is an on-policy method. It updates the Q value using the actual action taken by the behavior policy, which might sometimes be suboptimal due to
+exploration, for example, an $\epsilon$-greedy policy might select a non-optimal action.
+
+For example, in state 2, suppose the optimal action is to “draw”, which yields the optimal expected value of 5 rather than “stop”, which yields a suboptimal
+expected return of 2. Q-learning will update state 2 using the Q value corresponding to “draw” (i.e., the maximum return), whereas SARSA might occasionally
+update state 2 using the return for “stop” if the behavior policy happens to select that action. This difference leads SARSA to sometimes generate
+lower Q values for states 2, 3 and 4, whose optimal values depend on taking a sequence of optimal actions.
+
+\newpage
+\section*{Problem 4}
+
+\subsection*{4.a)}
+
+% Discussion of the $\epsilon$-greedy strategy:
+For the $\epsilon$-greedy method, Figure~\ref{fig:epsilon} illustrates that setting $\epsilon = 0.1$ performs best over the long term,
+favoring less exploration. However, in shorter time frames, a higher $\epsilon$ is necessary to ensure that all $k$ arms are sufficiently tested.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{images/Figure_2.png}
+\caption{Performance of $\epsilon$-greedy with different values of $\epsilon$. Long-term performance is best with $\epsilon = 0.1$,
+though higher values may be beneficial for early exploration.}
+\label{fig:epsilon}
+\end{figure}
+
+\newpage
+
+% Discussion of the UCB strategy:
+In contrast, Figure~\ref{fig:ucb} demonstrates the UCB approach where the exploration parameter $c$ scales the exploration rate.
+Here, setting $c = 0.3$ yields the best long-term performance, outperforming the $\epsilon$-greedy strategy significantly.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{images/Figure_3.png}
+\caption{Performance of UCB with varying values of $c$. The best long-term performance is achieved when $c = 0.3$.}
+\label{fig:ucb}
+\end{figure}
+
+\paragraph{}
+Additionally, from a theoretical standpoint, the cumulative regret of $\epsilon$-greedy often grows \emph{linearly} in $T$,
+whereas UCB methods achieve regret on the order of $\log T$. On the log-scale x-axis, linear growth appears almost
+``exponential,'' while near-logarithmic growth appears roughly linear. This explains why, over large time horizons,
+UCB typically outperforms $\epsilon$-greedy in terms of cumulative regret.
+
+\newpage
+\subsection*{4.b)}
+% Discussion of the $\epsilon$-greedy strategy for more difficult bandit:
+For the updated $\bigtriangleup$k values, the $\epsilon$-greedy method, Figure~\ref{fig:epsilon} illustrates that setting $\epsilon = 0.1$ still performs best over the long term,
+favoring less exploration. However, the lower $\bigtriangleup$k makes the optimal arm more difficult to locate, necessitating a longer time to maximize frequency of
+the best arm to 1.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{images/Figure_4.png}
+\caption{Performance of $\epsilon$-greedy with different values of $\epsilon$. Long-term performance is best with $\epsilon = 0.1$,
+though higher values may be beneficial for early exploration.}
+\label{fig:epsilon_hard}
+\end{figure}
+
+\newpage
+% Discussion of the UCB strategy for more difficult bandit:
+In contrast, Figure~\ref{fig:ucb} demonstrates the UCB approach where the exploration parameter $c$ scales the exploration rate.
+Here, setting $c = 0.3$ still yields the best long-term performance, outperforming the $\epsilon$-greedy strategy by a much larger margin under the
+lower $\bigtriangleup$k parameter. This indicates UCB is less sensitive to changes in $\bigtriangleup$k, likely stemming from the advantages inherent to UCB.
+Namely, because k = 2, UCB is able to quickly hone in on the optimal arm using its more targeted exploration and under proper tuning (c = 0.1) its regret
+grows $O(\log(N))$ better than $\epsilon$-greedy.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{images/Figure_5.png}
+\caption{Performance of UCB with varying values of $c$. The best long-term performance is achieved when $c = 0.3$.}
+\label{fig:ucb_hard}
+\end{figure}
+
+\newpage
+\subsection*{4.c)}
+% Discussion of the $\epsilon$-greedy strategy for more difficult bandit:
+For the updated $\bigtriangleup k$ values, the $\epsilon$-greedy method, Figure~\ref{fig:epsilon_four_k} illustrates the difficulty that the $\epsilon$-greedy method
+has in finding the optimal arm. The reason for this is twofold: doubling the number of arms increases the difficulty for the algorithm to find the optimal arm,
+while increasing the range of reward variance amongst the arms increases the expected regret of having to explore suboptimal arms for a longer period of time.
+This explains why the performance of the algorithm is the worst under $\epsilon = 0.3$, as the expected regret is maximized due to the increased selection
+of arms with a high $\bigtriangleup k$. Moreover, since $\epsilon$-greedy continues to select random actions with a fixed probability,
+its cumulative regret grows roughly linearly with time, exacerbating the penalty from repeatedly exploring inferior arms.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{images/Figure_6.png}
+\caption{Performance of $\epsilon$-greedy with different values of $\epsilon$. Long-term performance is best with $\epsilon = 0.1$, though higher values may be beneficial for early exploration.}
+\label{fig:epsilon_four_k}
+\end{figure}
+
+\newpage
+% Discussion of the UCB strategy for more difficult bandit:
+In contrast, Figure~\ref{fig:ucb_four_k} demonstrates that UCB has a much greater variance in performance compared to $\epsilon$-greedy when the number of arms is increased to 4.
+However, when $c$ is properly chosen, the algorithm performs similarly in terms of the percentage of best arm selections,
+yet it exhibits a significantly lower cumulative regret. This behavior owes to the fact that while both algorithms take more time to find the optimal arm,
+UCB is able to iteratively hone in on the best arm by exploring those with values closer to the optimum rather than exploring uniformly at random.
+Furthermore, UCB’s directed exploration typically results in a sublinear (often logarithmic) growth in cumulative regret, in contrast to the
+linear regret growth inherent to $\epsilon$-greedy with fixed $\epsilon$.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{images/Figure_7.png}
+\caption{Performance of UCB with varying values of $c$. The best long-term performance is achieved when $c = 0.3$.}
+\label{fig:ucb_four_k}
+\end{figure}
+
+\section*{Problem 5}
+\subsection*{5.a)}
+
+Increasing $\gamma$ to 0.9 makes the agent value future rewards more, leading to a higher 100-step average velocity (about 0.41 versus 0.16). Lowering $\gamma$
+to 0.7 makes the agent more short-sighted, reducing the average velocity to around 0.11. Note that $\gamma$ affects how future rewards are weighted—not
+the exploration rate.
+
+\subsection*{5.b)}
+After the robot has learned the optimal policy, increasing $\epsilon$ increases the avg velocity of the robot by around 20 percent, and decreasing $\epsilon$ has the opposite effect, reducing the average velocity by around 30 percent.
+
+\subsection*{5.c)}
+With $\alpha$ = 0.8 the robot averages about 3400 steps to cross, but lowering $\alpha$ to 0.1 increases the average to roughly 6000 steps. This shows that a higher learning rate speeds up Q-value convergence and reduces training time.
 \end{document}
+
