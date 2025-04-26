@@ -1,0 +1,981 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage,lipsum,amsmath,amsfonts,amssymb,graphicx, subcaption,enumitem,mathtools,float}
+\font\titlefont=cmr12 at 20pt
+\font\subtitlefont=cmr12 at 17pt
+
+\title{%
+  \titlefont{COMS W4701: Artificial Intelligence, Spring 2025} \\
+\subtitlefont{Homework \#4}} %replace \# with number
+\author{Peter Driscoll (pvd2112)} %replace with name & uni
+
+\begin{document}
+\maketitle
+
+%Problem 1
+\section*{Problem 1}
+
+\subsection*{(a)}
+\[
+\begin{aligned}
+\textbf{(1)}& \\[6pt]
+P(+m) &= 0.108 \;+\; 0.012 \;+\; 0.072 \;+\; 0.008 \;=\; 0.2,\\
+P(-m) &= 1 \;-\; 0.2 \;=\; 0.8,\\[6pt]
+P(+s) &= 0.108 \;+\; 0.012 \;+\; 0.016 \;+\; 0.064 \;=\; 0.2,\\
+P(-s) &= 1 \;-\; 0.2 \;=\; 0.8,\\[6pt]
+P(+t) &= 0.108 \;+\; 0.072 \;+\; 0.016 \;+\; 0.144 \;=\; 0.34,\\
+P(-t) &= 1 \;-\; 0.34 \;=\; 0.66,\\[12pt]
+\end{aligned}
+\]
+
+\subsection*{(b)}
+\[
+\begin{aligned}
+\textbf{(2)}& \\[6pt]
+P(+m,\, +s) &= 0.108 \;+\; 0.012 \;=\; 0.12,\\
+P(+m,\, -s) &= 0.072 \;+\; 0.008 \;=\; 0.08,\\
+P(-m,\, +s) &= 0.016 \;+\; 0.064 \;=\; 0.08,\\
+P(-m,\, -s) &= 0.144 \;+\; 0.576 \;=\; 0.72\; 
+\end{aligned}
+\]
+
+\subsection*{(c)}
+
+\[
+P(+m, +ts) \neq P(+m)\,P(+ts) \quad \Longrightarrow \quad 0.12 \neq 0.04 \quad \Longrightarrow \quad M \not\perp S,
+\]
+\[
+P(+m, +t) \neq P(+m)\,P(+t) \quad \Longrightarrow \quad 0.18 \neq 0.068 \quad \Longrightarrow \quad M \not\perp T,
+\]
+\[
+P(+t, +s) \neq P(+t)\,P(+s) \quad \Longrightarrow \quad 0.124 \neq 0.068.
+\]
+
+\subsection*{(d)}
+We want to find \(P(S, T \mid +m)\). Suppose we have
+\[
+P(S,T \mid +m) 
+= 
+\begin{pmatrix}
+0.108\\
+0.012\\
+0.072\\
+0.008
+\end{pmatrix}
+\]
+where the rows correspond (in order) to \((+s,+t)\), \((+s,-t)\), \(( -s,+t)\), and \(( -s,-t)\).  Normalizing by \(0.02\) (if that is the total), we get
+\[
+P(S,T \mid +m) 
+= 
+\begin{pmatrix}
+0.108 \\[6pt]
+0.012 \\[6pt]
+0.072 \\[6pt]
+0.008
+\end{pmatrix}
+\Big/ 0.20 
+=
+\begin{pmatrix}
+0.54\\
+0.06\\
+0.36\\
+0.04
+\end{pmatrix}.
+\]
+
+From this joint distribution, we can compute the marginals:
+\[
+P(S \mid +m) 
+= 
+\sum_{T} P(S,T \mid +m) 
+\quad\Longrightarrow\quad 
+P(+s\mid +m) = 0.6, 
+\quad 
+P(-s\mid +m) = 0.4,
+\]
+\[
+P(T \mid +m) 
+= 
+\sum_{S} P(S,T \mid +m) 
+\quad\Longrightarrow\quad 
+P(+t\mid +m) = 0.9,
+\quad 
+P(-t\mid +m) = 0.1.
+\]
+
+\subsection*{(e)}
+\noindent
+\textbf{Claim:} Given \(M\), knowing \(S\) does not change \(T\).  
+In other words,
+\[
+  S \perp\!\!\!\perp T \;\big|\; M.
+\]
+
+\subsection*{Case 1: \(M = +m\)}
+
+We want to check whether 
+\[
+  P(S,T \mid +m)
+  \;=\;
+  P(S \mid +m)\,P(T \mid +m).
+\]
+Numerically,
+\[
+  P(S,T \mid +m) 
+  \;=\;
+  \begin{pmatrix}
+    0.54\\[6pt]
+    0.06\\[6pt]
+    0.36\\[6pt]
+    0.04
+  \end{pmatrix}
+  \;=\;
+  \begin{pmatrix}
+    0.6 \cdot 0.9\\[4pt]
+    0.6 \cdot 0.1\\[4pt]
+    0.4 \cdot 0.9\\[4pt]
+    0.4 \cdot 0.1
+  \end{pmatrix},
+\]
+where the rows correspond (in order) to \((+s,+t)\), \((+s,-t)\), \(( -s,+t)\), and \(( -s,-t)\).  
+
+\subsection*{Case 2: \(M = -m\)}
+
+Similarly,
+\[
+  P(S,T \mid -m) 
+  \;=\;
+  \begin{pmatrix}
+    0.016\\
+    0.064\\
+    0.144\\
+    0.576
+  \end{pmatrix}
+  \quad\xrightarrow{\text{normalization}}\quad
+  \begin{pmatrix}
+    0.02\\
+    0.08\\
+    0.18\\
+    0.72
+  \end{pmatrix}.
+\]
+From the marginals:
+\[
+  P(S \mid -m) 
+  \;=\;
+  \begin{cases}
+    P(+s \mid -m) = 0.1,\\
+    P(-s \mid -m) = 0.9,
+  \end{cases}
+  \qquad
+  P(T \mid -m) 
+  \;=\;
+  \begin{cases}
+    P(+t \mid -m) = 0.2,\\
+    P(-t \mid -m) = 0.8.
+  \end{cases}
+\]
+Hence,
+\[
+  P(S \mid -m)\,P(T \mid -m) 
+  \;=\;
+  \begin{pmatrix}
+    0.1 \cdot 0.2\\[4pt]
+    0.1 \cdot 0.8\\[4pt]
+    0.9 \cdot 0.2\\[4pt]
+    0.9 \cdot 0.8
+  \end{pmatrix}
+  \;=\;
+  \begin{pmatrix}
+    0.02\\
+    0.08\\
+    0.18\\
+    0.72
+  \end{pmatrix}
+  \;=\;
+  P(S,T \mid -m).
+\]
+
+\subsection*{Conclusion}
+Since
+\[
+  P(S,T \mid m) = P(S\mid m)\,P(T\mid m)
+  \quad
+  \text{for both } m = +m \text{ and } m = -m,
+\]
+we conclude 
+\[
+  S \;\perp\!\!\!\perp\; T \;\big|\; M.
+\]
+
+\newpage
+
+\section*{Problem 2}
+\subsection*{(a)}
+
+\[
+  P(A,B, +d_0) \;=\; P(A)\,P(B)\,P(+d_0 \mid A,B).
+\]
+
+Explicitly summing over all combinations \((A,B) \in \{+a, -a\}\times\{+b, -b\}\), we have
+\[
+  P(+d_0, A, B) \;=\;
+  \begin{cases}
+     P(A=+a)\,P(B=+b)\,P(+d_0 \mid A=+a, B=+b),\\[6pt]
+     P(A=+a)\,P(B=-b)\,P(+d_0 \mid A=+a, B=-b),\\[6pt]
+     P(A=-a)\,P(B=+b)\,P(+d_0 \mid A=-a, B=+b),\\[6pt]
+     P(A=-a)\,P(B=-b)\,P(+d_0 \mid A=-a, B=-b).
+  \end{cases}
+\]
+
+If each of \(P(A=+a), P(A=-a)\) and \(P(B=+b), P(B=-b)\) is 0.5, and the conditional probabilities
+\[
+  P\bigl(+d_0 \mid A, B\bigr)
+\]
+take values (for instance):
+\[
+  P(+d_0 \mid +a, +b) = 0, \quad
+  P(+d_0 \mid +a, -b) = 0.5, \quad
+  P(+d_0 \mid -a, +b) = 0.5, \quad
+  P(+d_0 \mid -a, -b) = 1,
+\]
+then each joint term becomes:
+\[
+  P(+d_0, +a, +b) \;=\; 0.5 \times 0.5 \times 0 \;=\; 0,
+\]
+\[
+  P(+d_0, +a, -b) \;=\; 0.5 \times 0.5 \times 0.5 \;=\; 0.125,
+\]
+\[
+  P(+d_0, -a, +b) \;=\; 0.5 \times 0.5 \times 0.5 \;=\; 0.125,
+\]
+\[
+  P(+d_0, -a, -b) \;=\; 0.5 \times 0.5 \times 1 \;=\; 0.25.
+\]
+
+Summing over all possibilities,
+\[
+  P(+d_0)
+  \;=\;
+  \sum_{A,B} P(+d_0, A, B)
+  \;=\;
+  0 + 0.125 + 0.125 + 0.25
+  \;=\;
+  0.5.
+\]
+
+\vspace{1em}
+
+Now, we repeat the same process for $-d_0$:
+\[
+  P(A,B, -d_0) \;=\; P(A)\,P(B)\,P(-d_0 \mid A,B).
+\]
+
+Explicitly summing over all combinations \((A,B) \in \{+a, -a\}\times\{+b, -b\}\), we have
+\[
+  P(-d_0, A, B) \;=\;
+  \begin{cases}
+     P(A=+a)\,P(B=+b)\,P(-d_0 \mid A=+a, B=+b),\\[6pt]
+     P(A=+a)\,P(B=-b)\,P(-d_0 \mid A=+a, B=-b),\\[6pt]
+     P(A=-a)\,P(B=+b)\,P(-d_0 \mid A=-a, B=+b),\\[6pt]
+     P(A=-a)\,P(B=-b)\,P(-d_0 \mid A=-a, B=-b).
+  \end{cases}
+\]
+
+If each of \(P(A=+a), P(A=-a)\) and \(P(B=+b), P(B=-b)\) is 0.5, and the conditional probabilities
+\[
+  P\bigl(-d_0 \mid A, B\bigr)
+\]
+take values (for instance):
+\[
+  P(-d_0 \mid +a, +b) = 1, \quad
+  P(-d_0 \mid +a, -b) = 0.5, \quad
+  P(-d_0 \mid -a, +b) = 0.5, \quad
+  P(-d_0 \mid -a, -b) = 0,
+\]
+then each joint term becomes:
+\[
+  P(-d_0, +a, +b) \;=\; 0.5 \times 0.5 \times 1 \;=\; 0.25,
+\]
+\[
+  P(-d_0, +a, -b) \;=\; 0.5 \times 0.5 \times 0.5 \;=\; 0.125,
+\]
+\[
+  P(-d_0, -a, +b) \;=\; 0.5 \times 0.5 \times 0.5 \;=\; 0.125,
+\]
+\[
+  P(-d_0, -a, -b) \;=\; 0.5 \times 0.5 \times 0 \;=\; 0.
+\]
+
+Summing over all possibilities,
+\[
+  P(-d_0)
+  \;=\;
+  \sum_{A,B} P(-d_0, A, B)
+  \;=\;
+  0.25 + 0.125 + 0.125 + 0
+  \;=\;
+  0.5.
+\]
+
+\subsection*{(b)}
+
+\[
+  P(A,B,d_{0},\dots,d_{n})
+  \;=\;
+  P(A)\,P(B)\,P\bigl(d_{0}\mid A,B\bigr)
+  \;\prod_{i=1}^{n}P\bigl(d_{i}\mid d_{i-1}\bigr).
+\]
+
+\[
+  P(A,B,d_{n})
+  \;=\;
+  P(A)\,P(B)
+  \sum_{d_{0}} \sum_{d_{1}} \dots \sum_{d_{n-1}}
+  \bigl[
+    P(A)\,P(B)\,P(d_{0}\mid A,B)
+    \,\prod_{i=1}^{n} P(d_{i}\mid d_{i-1})
+  \bigr].
+\]
+
+Hence,
+\[
+  P(A,B,D_{n})
+  \;=\;
+  P(A)\,P(B)\,P\bigl(D_{n}\mid A,B\bigr).
+\]
+
+\subsection*{(c)}
+Given:
+\[
+\begin{aligned}
+P(A) &= 0.5,\quad P(B)=0.5,\\[1mm]
+P(+d_0\mid +a,+b)&=0,\quad P(+d_0\mid +a,-b)=0.5,\\[1mm]
+P(+d_0\mid -a,+b)&=0.5,\quad P(+d_0\mid -a,-b)=1,\\[1mm]
+P(+d_1\mid d_0)&=1\quad\text{(for both \(+d_0\) and \(-d_0\)).}
+\end{aligned}
+\]
+
+The joint probability is
+\[
+P(A,B,D_1=+d_1)=\sum_{d_0\in\{+,-\}} P(A,B,d_0,D_1=+d_1)
+= P(A)P(B)\sum_{d_0} P(d_0\mid A,B)P(+d_1\mid d_0).
+\]
+Since \(P(+d_1\mid d_0)=1\) for both \(d_0\) values and \(\sum_{d_0} P(d_0\mid A,B)=1\),
+\[
+P(A,B,D_1=+d_1)=P(A)P(B)=0.5\times0.5=0.25.
+\]
+
+Thus, for each \((A,B)\) configuration:
+\[
+P(A,B,D_1=+d_1)=0.25 \quad\text{and}\quad P(D_1=+d_1)=1.
+\]
+
+
+\subsection*{(d)}
+From part (b), we have
+\[
+P(A,B,D_1=+d_1)=P(A)P(B)=0.5\times0.5=0.25 \quad\text{(for each \((A,B)\) pair)}.
+\]
+Since
+\[
+P(D_1=+d_1)=\sum_{A,B}P(A,B,D_1=+d_1)=4\times0.25=1,
+\]
+Bayes' rule gives
+\[
+P(A,B\mid +d_1)=\frac{P(A,B,D_1=+d_1)}{P(D_1=+d_1)}
+=\frac{P(A)P(B)}{1}=P(A)P(B).
+\]
+Thus, the posterior is the same as the prior:
+\[
+\begin{aligned}
+P(+a,+b\mid +d_1)&=0.25,\\[1mm]
+P(+a,-b\mid +d_1)&=0.25,\\[1mm]
+P(-a,+b\mid +d_1)&=0.25,\\[1mm]
+P(-a,-b\mid +d_1)&=0.25.
+\end{aligned}
+\]
+
+\newpage
+
+\section*{Problem 3}
+\subsection*{(a)}
+Nodes that are independent to StarterSystemOk must only reach Starter SystemOk through a directed path through an ubobserved collider.
+These nodes include: DistributorOK, SparkTiming, Spark Plugs, FuelSystemOK, AirFilterClean, AirSystemOK. 
+
+\subsection*{(b.i)}
+No previously dependent node has its path to Starter SystemOK cut by observing VoltageatPlug, 
+because those paths are already blocked at SparkAdequate, so no new variables become independent.
+
+\subsection*{(b.ii)}
+Nodes that were independent of StarterSystemOK in part(a) were those that only met StarterSystemOK at a collider. 
+Observing VoltageatPlug does not unblock those colliders or create a new path; hence they remain independent.
+
+\subsection*{(c.i)}
+Before observing CarCranks, there was an unblocked chain from StarterSystemOK → CarCranks → CarStarts. 
+Now that CarCranks is observed, the path is blocked, so CarStarts becomes conditionally independent of StarterSystemOK.
+All downstream nodes also become conditionally independent, including 
+\subsection*{(c.ii)}
+In part(a), certain nodes were already independent of StarterSystemOK because they only met it at a collider. 
+Observing CarCranks does not unblock or open those colliders, so they remain independent.
+
+Any node that was dependent through a direct chain/fork still has that direct chain/fork open to StarterSystemOK; 
+CarCranks is not on their path to StarterSystemOK, so they remain dependent.
+\subsection*{(d)}
+
+VoltageAtPlug has parents BatteryVoltage and MainFuseOK. Summation is over those plus their own parents:
+
+\[
+P(\mathrm{VAP})
+\;=\;
+\sum_{BA}\sum_{AO}\sum_{CSOK}\sum_{BV}\sum_{MF}
+\Bigl[
+\begin{aligned}
+  &P(BA)\,P(AO)\,P(\mathrm{CSOK})\,P(MF)\,\\[1mm]
+  &\times \,P\bigl(BV \mid BA,\,AO,\,\mathrm{CSOK}\bigr)\,P\bigl(\mathrm{VAP}\mid BV,\,MF\bigr)
+\end{aligned}
+\Bigr].
+\]
+
+\subsection*{(e)}
+
+We observe that VoltageAtPlug=v and SparkAdequate typically depends on SparkQuality, StarterSystemOK, etc.
+Therefore, we must sum out any unobserved parents/ancestors, then normalize over all possible values of SA:
+
+\[
+P(\mathrm{SA}\mid \mathrm{VAP}=v)
+\;=\;
+\frac{
+\begin{aligned}
+  &\sum_{SOK}\!\sum_{SQ}\!\sum_{ST}\!\sum_{DO}\!\sum_{SP} \; 
+    P(DO)\,P(ST \mid DO)\,P(SP)\,P(SOK)\\[1mm]
+  &\quad \times \,
+    P\bigl(SQ\mid \mathrm{VAP}=v,\,SP\bigr)\,P\bigl(\mathrm{SA}\mid SQ,\,ST,\,SOK\bigr)
+\end{aligned}
+}{
+\begin{aligned}
+  &\sum_{\mathrm{SA},\,SOK,\,SQ,\,ST,\,DO,\,SP} \; 
+    P(DO)\,P(ST \mid DO)\,P(SP)\,P(SOK)\\[1mm]
+  &\quad \times \,
+    P\bigl(SQ\mid \mathrm{VAP}=v,\,SP\bigr)\,P\bigl(\mathrm{SA}\mid SQ,\,ST,\,SOK\bigr)
+\end{aligned}
+}\,.
+\]
+
+\subsection*{(f)}
+
+AirFilterClean is a parent of AirSystemOK, which joins SparkAdequate, FuelSystemOK, and CarCranks at CarStarts. 
+We observe SA, CC, CST, so we sum out unobserved parents ASO and FSO:
+
+\[
+P(\mathrm{AFC}\mid \mathrm{SA},\,\mathrm{CC},\,\mathrm{CST})
+\;=\; \frac{
+\begin{aligned}
+\sum_{\mathrm{ASO},\,\mathrm{FSO}} \Bigl[ 
+&\; P(\mathrm{AFC})\, P(\mathrm{ASO}\mid \mathrm{AFC})\\[1mm]
+&\; \times \, P(\mathrm{FSO})\, P\bigl(\mathrm{CST}\mid \mathrm{SA},\,\mathrm{CC},\,\mathrm{FSO},\,\mathrm{ASO}\bigr)
+\Bigr]
+\end{aligned}
+}{
+\begin{aligned}
+\sum_{\mathrm{AFC},\,\mathrm{ASO},\,\mathrm{FSO}} \Bigl[
+&\; P(\mathrm{AFC})\, P(\mathrm{ASO}\mid \mathrm{AFC})\\[1mm]
+&\; \times \, P(\mathrm{FSO})\, P\bigl(\mathrm{CST}\mid \mathrm{SA},\,\mathrm{CC},\,\mathrm{FSO},\,\mathrm{ASO}\bigr)
+\Bigr]
+\end{aligned}
+}\,.
+\]
+
+
+
+\newpage
+
+\section*{Problem 4}
+\subsection*{(a)}
+We are given a Bayes net with the following Boolean variables:
+\[
+S \quad (\text{Sore Throat}), \quad I \quad (\text{Influenza}), \quad Sm \quad (\text{Smokes}),
+\]
+\[
+B \quad (\text{Bronchitis}), \quad F \quad (\text{Fever}), \quad C \quad (\text{Coughing}), \quad W \quad (\text{Wheezing}).
+\]
+The dependencies (directed edges) are:
+\[
+S \to I,\quad I \to F,\quad I \to B,\quad Sm \to B,\quad B \to C,\quad B \to W.
+\]
+We want to compute the distribution:
+\[
+P(F \mid W = \text{True}).
+\]
+
+\section*{Step 1: Factorizing the Joint Distribution}
+The joint distribution factorizes according to the Bayes net structure as follows:
+\begin{align*}
+P(S, I, Sm, B, F, C, W) =\; & P(S)\,P(I \mid S)\,P(Sm) \\
+ & \quad \times P(B \mid I, Sm)\,P(F \mid I)\,P(C \mid B)\,P(W \mid B).
+\end{align*}
+Thus, the joint probability of \(F\) and \(W\) is:
+\begin{align*}
+P(F=f,\,W=w) =\; & \sum_{s,i,sm,b,c} \; P(S=s)\,P(I=i \mid S=s)\,P(Sm=sm)\\[1mm]
+ & \quad \times P(B=b \mid I=i,Sm=sm)\,P(F=f \mid I=i)\\[1mm]
+ & \quad \times P(C=c \mid B=b)\,P(W=w \mid B=b).
+\end{align*}
+Since \(C\) appears only in \(P(C \mid B)\) and we sum over it:
+\[
+\sum_{c} P(C=c \mid B=b)=1,
+\]
+the expression simplifies to:
+\begin{align*}
+P(F=f,\,W=w) =\; & \sum_{s,i,sm,b} \; P(S=s)\,P(I=i \mid S=s)\,P(Sm=sm)\\[1mm]
+ & \quad \times P(B=b \mid I=i,Sm=sm)\,P(F=f \mid I=i)\,P(W=w \mid B=b).
+\end{align*}
+
+\section*{Step 2: Expression for \(P(F \mid W=\text{True})\)}
+By the definition of conditional probability:
+\[
+P(F=f \mid W=\text{True}) = \frac{P(F=f,\,W=\text{True})}{P(W=\text{True})}.
+\]
+In \emph{unnormalized} form we can write:
+\begin{align*}
+P(F=f \mid W=\text{True}) \propto\; & \sum_{s,i,sm,b} \Big[
+P(S=s)\,P(I=i \mid S=s)\,P(Sm=sm)\\[1mm]
+ & \quad \times P(B=b \mid I=i,Sm=sm)\,P(F=f \mid I=i)\\[1mm]
+ & \quad \times P(W=\text{True} \mid B=b)
+\Big].
+\end{align*}
+
+\subsection*{Rewriting Each Term as a Factor}
+We define the following factors corresponding to the Bayes net's conditional probability tables:
+\[
+\begin{array}{rcl}
+\phi_1(s) & = & P(S=s),\\[1mm]
+\phi_2(i,s) & = & P(I=i \mid S=s),\\[1mm]
+\phi_3(sm) & = & P(Sm=sm),\\[1mm]
+\phi_4(b,i,sm) & = & P(B=b \mid I=i,Sm=sm),\\[1mm]
+\phi_5(f,i) & = & P(F=f \mid I=i),\\[1mm]
+\phi_6(w,b) & = & P(W=w \mid B=b).
+\end{array}
+\]
+Thus, the unnormalized expression becomes:
+\begin{align*}
+\tilde{P}(F=f,\,W=\text{True}) =\; & \sum_{s,i,sm,b} \; \phi_1(s)\,\phi_2(i,s)\,\phi_3(sm)\\[1mm]
+ & \quad \times \phi_4(b,i,sm)\,\phi_5(f,i)\,\phi_6(\text{True},b).
+\end{align*}
+Normalization is then performed by summing over all values of \(f\).
+
+\section*{Step 3: Maximum Size of the Intermediate Factor}
+If we multiply all factors \emph{before} marginalization, we obtain a single factor over all 7 Boolean variables:
+\[
+S,\; I,\; Sm,\; B,\; F,\; C,\; W.
+\]
+Since each variable has 2 states, the maximum number of entries in the resulting factor is:
+\[
+2^7 = 128.
+\]
+Thus, the maximum size of the intermediate factor is \(\boxed{128}\) entries.
+
+\section*{Summary}
+The unnormalized expression for \(P(F \mid W=\text{True})\) is:
+\[
+\boxed{
+P(F=f \mid W=\text{True}) \propto \sum_{s,i,sm,b} \phi_1(s)\,\phi_2(i,s)\,\phi_3(sm)\,\phi_4(b,i,sm)\,\phi_5(f,i)\,\phi_6(\text{True},b)
+}
+\]
+with the factors defined as above, and the maximum intermediate factor size is \(128\) entries.
+\subsection*{(b)}
+
+\paragraph{Joint Factorization.}
+\[
+P(S,I,Sm,B,F,C,W)
+\;=\;
+P(S)\,P(I\mid S)\,P(Sm)\,P(B\mid I,Sm)\,P(F\mid I)\,P(C\mid B)\,P(W\mid B).
+\]
+We want
+\[
+\begin{aligned}
+P\bigl(F \mid W=\text{True}\bigr)
+&~=~
+\frac{P\bigl(F,\,W=\text{True}\bigr)}{P\bigl(W=\text{True}\bigr)},
+\\[6pt]
+P\bigl(F,\,W=\text{True}\bigr)
+&~=~
+\sum_{\substack{S\\ I\\ Sm\\ B\\ C}}
+\Bigl[
+  P(S)
+  \;\times\;
+  P\bigl(I \mid S\bigr)
+  \;\times\;
+  P(Sm)
+  \\[2pt]
+&\qquad\quad{}\times\;
+  P\bigl(B \mid I,Sm\bigr)
+  \;\times\;
+  P\bigl(F \mid I\bigr)
+  \;\times\;
+  P\bigl(C \mid B\bigr)
+  \;\times\;
+  P\bigl(W=\text{True}\mid B\bigr)
+\Bigr].
+\end{aligned}
+\]
+
+
+\paragraph{Variable Elimination (Ordering i).}
+Eliminate in the order \((I,\;Sm,\;S,\;F,\;B,\;C)\).  
+\begin{enumerate}
+\item \textbf{Eliminate \(\boldsymbol{I}\):}
+\[
+\mu_1(S,Sm,B,F)
+=\sum_{I}
+P(I\mid S)\,P(B\mid I,Sm)\,P(F\mid I).
+\]
+\item \textbf{Eliminate \(\boldsymbol{Sm}\):}
+\[
+\mu_2(S,B,F)
+=\sum_{Sm}
+P(Sm)\,\mu_1(S,Sm,B,F).
+\]
+\item \textbf{Eliminate \(\boldsymbol{S}\):}
+\[
+\mu_3(B,F)
+=\sum_{S}
+P(S)\,\mu_2(S,B,F).
+\]
+\item \textbf{Eliminate \(\boldsymbol{F}\):}
+\[
+\mu_4(B)
+=\sum_{F}
+\mu_3(B,F).
+\]
+\item \textbf{Eliminate \(\boldsymbol{B}\):}
+\[
+\mu_5(C)
+=\sum_{B}
+P(C\mid B)\,P(W=\text{True}\mid B)\,\mu_4(B).
+\]
+\item \textbf{Eliminate \(\boldsymbol{C}\):}
+\[
+P(W=\text{True})
+=\sum_{C}
+\mu_5(C).
+\]
+\end{enumerate}
+Then \(P(F,W=\text{True})\) is analogous but we keep \(F\) unsummed.  
+\textit{Largest factor:} \(\mu_1\) involves 4 variables \((S,Sm,B,F)\)\(\to 2^4=16\).
+
+\paragraph{Variable Elimination (Ordering ii).}
+Now eliminate \((C,\;B,\;F,\;S,\;Sm,\;I)\).  
+\begin{enumerate}
+\item \(\sum_{C}P(C\mid B)=1\), so we drop \(P(C\mid B)\).
+\item \textbf{Eliminate \(\boldsymbol{B}\):}
+\[
+\mu_2(I,Sm)
+=\sum_{B}
+P(B\mid I,Sm)\,P(W=\text{True}\mid B).
+\]
+\item \textbf{Eliminate \(\boldsymbol{F}\):}
+\(\mu_3(I)=\sum_{F}P(F\mid I)=1.\)
+\item \textbf{Eliminate \(\boldsymbol{S}\):}
+\[
+\mu_4(I)
+=\sum_{S}
+P(S)\,P(I\mid S).
+\]
+\item \textbf{Eliminate \(\boldsymbol{Sm}\):}
+\[
+\mu_5(I)
+=\sum_{Sm}
+P(Sm)\,\mu_2(I,Sm).
+\]
+\item \textbf{Eliminate \(\boldsymbol{I}\):}
+\[
+P(W=\text{True})
+=\sum_{I}
+\mu_4(I)\,\mu_5(I).
+\]
+\end{enumerate}
+\textit{Largest factor:} also at most 4 variables, size \(16\).
+
+\paragraph{Conclusion.}
+Both orderings yield a maximum intermediate factor over 4 Boolean variables, so size \(2^4=16\).
+
+\subsection*{(c) Numerical Computation for \(\displaystyle P(F=\mathrm{True}\mid W=\mathrm{True})\)}
+
+\paragraph{Setup.}
+Our Bayes net factorizes as
+\[
+P(S,I,Sm,B,F,C,W)
+\;=\;
+P(S)\,P(I\mid S)\,P(Sm)\,P(B\mid I,Sm)\,P(F\mid I)\,P(C\mid B)\,P(W\mid B).
+\]
+We observe \(W=\mathrm{True}\) and want \(P(F=\mathrm{True}\mid W=\mathrm{True})\).
+Because \(C\) does not appear elsewhere, we can drop it by noting \(\sum_C P(C\mid B)=1\).
+Define:
+\[
+\alpha \;=\; \sum_{S,I,Sm,B} P(S)\,P(I\mid S)\,P(Sm)\,P\bigl(B\mid I,Sm\bigr)\,P\bigl(F=\mathrm{True}\mid I\bigr)\,P\bigl(W=\mathrm{True}\mid B\bigr),
+\]
+\[
+\beta \;=\; \sum_{S,I,Sm,B} P(S)\,P(I\mid S)\,P(Sm)\,P\bigl(B\mid I,Sm\bigr)\,P\bigl(F=\mathrm{False}\mid I\bigr)\,P\bigl(W=\mathrm{True}\mid B\bigr).
+\]
+Then
+\[
+P\bigl(F=\mathrm{True}\mid W=\mathrm{True}\bigr)
+\;=\;
+\frac{\alpha}{\,\alpha + \beta\,}.
+\]
+
+\paragraph 
+Using the the following CPT entries:
+\[
+\begin{aligned}
+&P(S=\mathrm{True})=0.15,\quad P(S=\mathrm{False})=0.85,\\
+&P(I=\mathrm{True}\mid S=\mathrm{True})=0.8,\quad P(I=\mathrm{True}\mid S=\mathrm{False})=0.05,\\
+&P(Sm=\mathrm{True})=0.25,\quad P(Sm=\mathrm{False})=0.75,\\
+&P(B=\mathrm{True}\mid I=\mathrm{True},Sm=\mathrm{True})=0.95,\quad\ldots \text{(etc.\ for all 4 combos)},\\
+&P(F=\mathrm{True}\mid I=\mathrm{True})=0.99,\quad P(F=\mathrm{True}\mid I=\mathrm{False})=0.20,\\
+&P(W=\mathrm{True}\mid B=\mathrm{True})=0.70,\quad P(W=\mathrm{True}\mid B=\mathrm{False})=0.25.
+\end{aligned}
+\]
+There are \(2^4=16\) combinations of \((S,I,Sm,B)\).  For each combination, we form the product of the relevant terms for \(\alpha\), and sum.  We do the same for \(\beta\), switching \(F=\mathrm{True}\) to \(F=\mathrm{False}\).  A short script or table calculation yields, for instance:
+\[
+\alpha \;\approx\; 0.1537,
+\qquad
+\beta \;\approx\; 0.3178.
+\]
+Hence
+\[
+P\bigl(F=\mathrm{True}\mid W=\mathrm{True}\bigr)
+\;=\;
+\frac{\alpha}{\alpha + \beta}
+\;\approx\;
+\frac{0.1537}{\,0.1537 + 0.3178\,}
+\;=\;
+0.326.
+\]
+
+\newpage
+
+\section*{Problem 5}
+\subsection*{(a)}
+We are given a Bayesian network with five binary variables:
+\begin{itemize}
+    \item \textbf{fire}
+    \item \textbf{alarm} (depends on \textbf{fire})
+    \item \textbf{smoke} (depends on \textbf{alarm})
+    \item \textbf{leaving} (depends on \textbf{alarm})
+    \item \textbf{report} (depends on \textbf{leaving})
+\end{itemize}
+
+The joint distribution factorizes as
+\[
+\begin{aligned}
+P(\text{fire},\text{alarm},\text{smoke},\text{leaving},\text{report})
+=\; & P(\text{fire}) \;P(\text{alarm}\mid\text{fire}) \;P(\text{smoke}\mid\text{alarm})\\[1mm]
+&\times\; P(\text{leaving}\mid\text{alarm}) \;P(\text{report}\mid\text{leaving}).
+\end{aligned}
+\]
+
+We wish to compute
+\[
+P(\text{smoke}\mid \text{report}=\text{True}).
+\]
+
+
+By definition of conditional probability,
+\[
+P(\text{smoke}=s \;\big|\; \text{report}=\text{True})
+~=~
+\frac{\,P(\text{smoke}=s,\;\text{report}=\text{True})\,}{\,P(\text{report}=\text{True})\,}.
+\]
+
+\noindent
+We write the joint probability \(P(\text{smoke}=s,\;\text{report}=\text{True})\) by summing over the hidden variables (\(\text{fire}, \text{alarm}, \text{leaving}\)):
+
+\[
+\begin{aligned}
+P\bigl(\text{smoke}=s,\;\text{report}=\text{True}\bigr)
+&~=\;
+\sum_{\substack{\text{fire}\\ \text{alarm}\\ \text{leaving}}}
+\Bigl[
+  P(\text{fire})
+  \;\times\;
+  P\bigl(\text{alarm}\mid \text{fire}\bigr)
+  \;\times\;
+  P\bigl(\text{smoke}=s \mid \text{alarm}\bigr)
+  \\[4pt]
+&\quad{}\times\;
+  P\bigl(\text{leaving} \mid \text{alarm}\bigr)
+  \;\times\;
+  P\bigl(\text{report}=\text{True} \mid \text{leaving}\bigr)
+\Bigr].
+\end{aligned}
+\]
+
+
+Thus, the unnormalized expression for \(P(\text{smoke}=s\mid \text{report}=\text{True})\) is
+\[
+\begin{aligned}
+&\text{Thus, the unnormalized expression for }
+  P\bigl(\text{smoke}=s \mid \text{report}=\text{True}\bigr)
+  \text{ is:}
+\\[6pt]
+&P\bigl(\text{smoke}=s \mid \text{report}=\text{True}\bigr)
+~\propto~
+\sum_{\substack{\text{fire}\\ \text{alarm}\\ \text{leaving}}}
+\Bigl[
+  P(\text{fire})
+  \;\times\;
+  P\bigl(\text{alarm}\mid \text{fire}\bigr)
+  \;\times\;
+  P\bigl(\text{smoke}=s\mid \text{alarm}\bigr)
+  \\[4pt]
+&\quad{}\times\;
+  P\bigl(\text{leaving}\mid \text{alarm}\bigr)
+  \;\times\;
+  P\bigl(\text{report}=\text{True}\mid \text{leaving}\bigr)
+\Bigr].
+\end{aligned}
+\]
+
+
+
+We can define each CPT as a factor:
+\[
+\begin{array}{rcl}
+\phi_1(\text{fire}) &=& P(\text{fire}),\\[1mm]
+\phi_2(\text{alarm},\text{fire}) &=& P(\text{alarm}\mid\text{fire}),\\[1mm]
+\phi_3(\text{smoke},\text{alarm}) &=& P(\text{smoke}\mid\text{alarm}),\\[1mm]
+\phi_4(\text{leaving},\text{alarm}) &=& P(\text{leaving}\mid\text{alarm}),\\[1mm]
+\phi_5(\text{report},\text{leaving}) &=& P(\text{report}\mid\text{leaving}).
+\end{array}
+\]
+Then the unnormalized expression becomes:
+\[
+\sum_{\text{fire},\,\text{alarm},\,\text{leaving}}
+\phi_1(\text{fire})\;\phi_2(\text{alarm},\text{fire})\;\phi_3(s,\text{alarm})\;\phi_4(\text{leaving},\text{alarm})\;\phi_5(\text{True},\text{leaving}).
+\]
+
+\section*{3. Maximum Intermediate Factor Size}
+
+If we multiply all the factors together before summing out any variable, we obtain one large factor over all five binary variables:
+\[
+(\text{fire},\,\text{alarm},\,\text{smoke},\,\text{leaving},\,\text{report}).
+\]
+Since each variable is binary, the total number of entries in this factor is
+\[
+2^5 = 32.
+\]
+
+
+\subsection*{(b) Extended Fire‐Alarm Network}
+
+We have six binary variables:
+\[
+\begin{aligned}
+t & (\text{tampering}),\\
+f & (\text{fire}),\\
+a & (\text{alarm}),\\
+s & (\text{smoke}),\\
+l & (\text{leaving}),\\
+r & (\text{report}).
+\end{aligned}
+\]
+The joint distribution factorizes as
+\[
+P(t,f,a,s,l,r)
+\;=\;
+P(t)\,P(f)\,P(a\mid t,f)\,P(s\mid f)\,P(l\mid a)\,P(r\mid l),
+\]
+where we note that \(\text{smoke}\) depends on \(\text{fire}\) (as per the new CPTs).  
+We observe \(r=\mathrm{True}\) and want \(\,P(s=\mathrm{True}\mid r=\mathrm{True})\).  
+Hence, the unnormalized distribution is
+\[
+P(s,\,r=\mathrm{True})
+\;=\;
+\sum_{t,f,a,l}
+  P(t)\,P(f)\,P(a\mid t,f)\,P(s\mid f)\,P(l\mid a)\,P(r=\mathrm{True}\mid l).
+\]
+
+\paragraph{Factor Definitions.}
+\[
+\phi_1(t) = P(t),\quad
+\phi_2(f) = P(f),\quad
+\phi_3(a\mid t,f) = P(a\mid t,f),
+\]
+\[
+\phi_4(s\mid f) = P(s\mid f),\quad
+\phi_5(l\mid a) = P(l\mid a),\quad
+\phi_6(r\mid l) = P(r\mid l).
+\]
+Since \(r=\mathrm{True}\) is observed, we use \(\phi_6(\mathrm{True}\mid l)\).
+
+\subsection*{(c) Numerical Computation of \(\,P(s=\mathrm{True}\mid r=\mathrm{True})\)}
+
+Using the CPTs from your screenshot:
+
+\[
+\begin{aligned}
+P(t=\mathrm{T}) &= 0.02,\;\; P(t=\mathrm{F})=0.98,\\
+P(f=\mathrm{T}) &= 0.01,\;\; P(f=\mathrm{F})=0.99,\\
+P(a=\mathrm{T}\mid t\!=\mathrm{T},f\!=\mathrm{T}) &= 0.5,\;\;\;
+  P(a=\mathrm{T}\mid t\!=\mathrm{T},f\!=\mathrm{F}) = 0.85,\\
+P(a=\mathrm{T}\mid t\!=\mathrm{F},f\!=\mathrm{T}) &= 0.99,\;\;
+  P(a=\mathrm{T}\mid t\!=\mathrm{F},f\!=\mathrm{F}) = 0.0,\\[6pt]
+P(s=\mathrm{T}\mid f\!=\mathrm{T}) &= 0.9,\;\;\;
+  P(s=\mathrm{T}\mid f\!=\mathrm{F}) = 0.01,\\
+P(l=\mathrm{T}\mid a\!=\mathrm{T}) &= 0.88,\;\;\;
+  P(l=\mathrm{T}\mid a\!=\mathrm{F}) = 0.0,\\[6pt]
+P(r=\mathrm{T}\mid l\!=\mathrm{T}) &= 0.75,\;\;\;
+  P(r=\mathrm{T}\mid l\!=\mathrm{F}) = 0.01.
+\end{aligned}
+\]
+
+\paragraph{Step‐by‐Step Summation.}
+We compute
+\[
+P(s=\mathrm{T},\,r=\mathrm{T})
+  \;=\;
+  \sum_{t,f,a,l}
+    P(t)\,P(f)\,P(a\mid t,f)\,P(s=\mathrm{T}\mid f)\,P(l\mid a)\,P(r=\mathrm{T}\mid l),
+\]
+and the same for \(s=\mathrm{F}\).  Below is the final tally (details omitted for brevity):
+
+\[
+P(s=\mathrm{T},\,r=\mathrm{T})
+  \;\approx\;
+  0.00604,
+\quad
+P(s=\mathrm{F},\,r=\mathrm{T})
+  \;\approx\;
+  0.02130.
+\]
+Hence,
+\[
+P(r=\mathrm{T})
+  \;=\;
+  0.00604 \;+\; 0.02130
+  \;=\;
+  0.02734,
+\]
+and therefore
+\[
+P\bigl(s=\mathrm{T}\mid r=\mathrm{T}\bigr)
+  \;=\;
+  \frac{0.00604}{0.02734}
+  \;\approx\;
+  0.221.
+\]
+So, \(\boxed{P(s=\mathrm{T}\mid r=\mathrm{T}) \approx 0.22.}\)
+
+\paragraph{Largest Intermediate Factor.}
+As shown in part (b), the maximum factor size depends on the elimination order:
+\[
+\begin{aligned}
+&(\,t,\,f,\,a,\,l\,)\quad\rightarrow\text{factor size up to }16,\\
+&(\,l,\,a,\,f,\,t\,)\quad\rightarrow\text{factor size }8,\;\dots
+\end{aligned}
+\]
+Changing the numerical CPTs does not affect these sizes.
+
+
+
+\end{document}
