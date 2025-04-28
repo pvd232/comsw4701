@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.2.22)  26 APR 2025 17:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.2.22)  26 APR 2025 23:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -329,51 +329,56 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
 {/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
-Overfull \hbox (141.59538pt too wide) detected at line 194
+Overfull \hbox (141.59538pt too wide) detected at line 208
 \OML/cmm/m/it/10.95 ^^Y[] \OT1/cmr/m/n/10.95 = 2\OML/cmm/m/it/10.95 =\OT1/cmr/m/n/10.95 14 \OMS/cmsy/m/n/10.95 ^^Y \OT1/cmr/m/n/10.95 0\OML/cmm/m/it/10.95 :\OT1/cmr/m/n/10.95 1429\OML/cmm/m/it/10.95 ;  ^^Y[] \OT1/cmr/m/n/10.95 = 3\OML/cmm/m/it/10.95 =\OT1/cmr/m/n/10.95 14 \OMS/cmsy/m/n/10.95 ^^Y \OT1/cmr/m/n/10.95 0\OML/cmm/m/it/10.95 :\OT1/cmr/m/n/10.95 2143\OML/cmm/m/it/10.95 ;  ^^Y[] \OT1/cmr/m/n/10.95 = 1\OML/cmm/m/it/10.95 =\OT1/cmr/m/n/10.95 14 \OMS/cmsy/m/n/10.95 ^^Y \OT1/cmr/m/n/10.95 0\OML/cmm/m/it/10.95 :\OT1/cmr/m/n/10.95 0714\OML/cmm/m/it/10.95 ; [] ^^Y[] \OT1/cmr/m/n/10.95 = 2\OML/cmm/m/it/10.95 =\OT1/cmr/m/n/10.95 14\OML/cmm/m/it/10.95 ;  ^^Y[] \OT1/cmr/m/n/10.95 = 3\OML/cmm/m/it/10.95 =\OT1/cmr/m/n/10.95 14\OML/cmm/m/it/10.95 ;  ^^Y[] \OT1/cmr/m/n/10.95 = 2\OML/cmm/m/it/10.95 =\OT1/cmr/m/n/10.95 14\OML/cmm/m/it/10.95 ;  ^^Y[] \OT1/cmr/m/n/10.95 = 1\OML/cmm/m/it/10.95 =\OT1/cmr/m/n/10.95 14\OML/cmm/m/it/10.95 :
  []
 
-[3{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
-Overfull \hbox (129.96877pt too wide) detected at line 259
+[3] [4]
+Overfull \hbox (129.96877pt too wide) detected at line 319
 \OML/cmm/m/it/10.95 P\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 e \OT1/cmr/m/n/10.95 = [] \OMS/cmsy/m/n/10.95 j \OML/cmm/m/it/10.95 X \OT1/cmr/m/n/10.95 = \OML/cmm/m/it/10.95 A\OT1/cmr/m/n/10.95 ) = 0\OML/cmm/m/it/10.95 :\OT1/cmr/m/n/10.95 5\OML/cmm/m/it/10.95 ;  P\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 e \OT1/cmr/m/n/10.95 = [] \OMS/cmsy/m/n/10.95 j \OML/cmm/m/it/10.95 X \OT1/cmr/m/n/10.95 = \OML/cmm/m/it/10.95 B\OT1/cmr/m/n/10.95 ) = 0\OML/cmm/m/it/10.95 :\OT1/cmr/m/n/10.95 25\OML/cmm/m/it/10.95 ;  P\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 e \OT1/cmr/m/n/10.95 = [] \OMS/cmsy/m/n/10.95 j \OML/cmm/m/it/10.95 X \OT1/cmr/m/n/10.95 = \OML/cmm/m/it/10.95 E\OT1/cmr/m/n/10.95 ) = 0\OML/cmm/m/it/10.95 ;  P\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 e \OT1/cmr/m/n/10.95 = [] \OMS/cmsy/m/n/10.95 j \OML/cmm/m/it/10.95 X \OT1/cmr/m/n/10.95 = \OML/cmm/m/it/10.95 F\OT1/cmr/m/n/10.95 ) = 0\OML/cmm/m/it/10.95 :\OT1/cmr/m/n/10.95 25\OML/cmm/m/it/10.95 :
  []
 
 
-Overfull \hbox (27.14032pt too wide) detected at line 272
+Overfull \hbox (27.14032pt too wide) detected at line 332
 \OML/cmm/m/it/10.95 P[]\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 A\OT1/cmr/m/n/10.95 ) = [] = 0\OML/cmm/m/it/10.95 :\OT1/cmr/m/n/10.95 50\OML/cmm/m/it/10.95 ;  P[]\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 B\OT1/cmr/m/n/10.95 ) = [] = 0\OML/cmm/m/it/10.95 :\OT1/cmr/m/n/10.95 375\OML/cmm/m/it/10.95 ; [] P[]\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 E\OT1/cmr/m/n/10.95 ) = 0\OML/cmm/m/it/10.95 ;  P[]\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 F\OT1/cmr/m/n/10.95 ) = [] = 0\OML/cmm/m/it/10.95 :\OT1/cmr/m/n/10.95 125\OML/cmm/m/it/10.95 :
  []
 
-[4] [5]
-<images/Figure_1.png, id=28, 462.528pt x 346.896pt>
+[5]
+Overfull \hbox (28.4605pt too wide) detected at line 410
+[][]
+ []
+
+[6]
+<images/Figure_1.png, id=33, 462.528pt x 346.896pt>
 File: images/Figure_1.png Graphic file (type png)
 <use images/Figure_1.png>
-Package pdftex.def Info: images/Figure_1.png  used on input line 389.
+Package pdftex.def Info: images/Figure_1.png  used on input line 449.
 (pdftex.def)             Requested size: 387.00153pt x 290.26318pt.
- [6]
-<images/Figure_2.png, id=35, 462.528pt x 346.896pt>
+ [7{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc} <./images/Figure_1.png>]
+<images/Figure_2.png, id=41, 462.528pt x 346.896pt>
 File: images/Figure_2.png Graphic file (type png)
 <use images/Figure_2.png>
-Package pdftex.def Info: images/Figure_2.png  used on input line 423.
+Package pdftex.def Info: images/Figure_2.png  used on input line 483.
 (pdftex.def)             Requested size: 387.00153pt x 290.26318pt.
- [7 <./images/Figure_1.png>] [8 <./images/Figure_2.png>] (./template.aux)
+ [8 <./images/Figure_2.png>] [9] (./template.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 6451 strings out of 474116
- 108588 string characters out of 5743682
- 1941187 words of memory out of 5000000
- 28738 multiletter control sequences out of 15000+600000
- 567375 words of font info for 69 fonts, out of 8000000 for 9000
+ 6454 strings out of 474116
+ 108641 string characters out of 5743682
+ 1944187 words of memory out of 5000000
+ 28740 multiletter control sequences out of 15000+600000
+ 567734 words of font info for 70 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 79i,13n,93p,333b,505s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on template.pdf (8 pages, 252988 bytes).
+ 79i,13n,93p,333b,504s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
+Output written on template.pdf (9 pages, 263434 bytes).
 PDF statistics:
- 97 PDF objects out of 1000 (max. 8388607)
- 58 compressed objects within 1 object stream
+ 105 PDF objects out of 1000 (max. 8388607)
+ 63 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

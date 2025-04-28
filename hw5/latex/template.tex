@@ -132,43 +132,57 @@ f & f & f & $-0.400$\\
 \caption{Utility factor over (A, CS, C) after summing out Fire.}
 \end{table}
 
-\medskip
-\noindent\textbf{Maximum Expected Utility:}
+\bigskip
+\textbf{Maximum Expected Utility:}
+
+\vspace{-4pt}
 \[
-  \mathrm{MEU} = \sum_{A,CS} P(A,CS)\,U\bigl(A,CS,C^*(A,CS)\bigr) \approx -0.523.
+\boxed{\mathrm{MEU}_{\text{no }F}= -7.13}
+\]
+
+\noindent
+The optimal decisions are
+\[
+CS^* = \mathrm{false}, \qquad
+C^*(A) =
+\begin{cases}
+  \mathrm{true},  & A = \mathrm{true} \\[2pt]
+  \mathrm{false}, & A = \mathrm{false}
+\end{cases}
 \]
 
 \bigskip
-\textbf{(c) Does Call depend on both parents?}
-Looking at the optimal Call actions for each $(A,CS)$, we see:
-\begin{itemize}[nosep]
-  \item When $A=\mathrm{true}$, $C=\mathrm{true}$, independent of $CS$.
-  \item When $A=\mathrm{false}$, $C=\mathrm{false}$, independent of $CS$.
-\end{itemize}
-Thus, Call depends only on Alarm.
+\textbf{(c) Does \text{Call} depend on both parents?}
 
-This holds for any elimination order: since Alarm fully determines Call, the policy is invariant.
+Indeed, $C^*$ depends \emph{only} on $A$; its value is unchanged when
+$CS$ toggles.  Because $CS^*$ is a constant, eliminating the decision
+nodes in any order yields the same policy.
+
 
 \bigskip
-\textbf{(d) Observing Fire before Call:}
-Allowing the Call decision to observe $F$ leads to:
-\begin{itemize}[nosep]
-  \item If $F=\mathrm{true}$, then $C=\mathrm{true}$.
-  \item If $F=\mathrm{false}$, then $C=\mathrm{false}$.
-\end{itemize}
-The CheckSmoke decision remains unchanged (never check).
-
-The resulting expected utility is
+\textbf{(d) Observing \textit{Fire} before making Call.}
+With an additional informational arc $F\!\rightarrow\!C$ the best rule is
 \[
-  \mathrm{MEU}_{\mathrm{obs}\,F} = -4.75\,P(A=\mathrm{true}) + (-0.25)\,P(A=\mathrm{false}) \approx -0.337.
+  C^{\*\!}(F)=
+  \begin{cases}
+    \mathrm{true},  & F=\mathrm{true}\\[2pt]
+    \mathrm{false}, & F=\mathrm{false},
+  \end{cases}\qquad
+  CS^{\*\!}=\mathrm{false}.
+  \]
+  The expected utility improves to
+  \[
+  \boxed{\mathrm{MEU}_{\text{obs }F}= -5.00 }.
 \]
 
 \bigskip
-\textbf{(e) Value of Perfect Information on Fire:}
+\textbf{(e) Value of Perfect Information on \textit{Fire}.}
 \[
-  \mathrm{VPI}(F) = \mathrm{MEU}_{\mathrm{obs}\,F} - \mathrm{MEU}_{\mathrm{no}\,F} = -0.337 - (-0.523) = 0.186.
+  \mathrm{VPI}(F)=\mathrm{MEU}_{\text{obs }F}-\mathrm{MEU}_{\text{no }F}
+  = (-5.00) - (-7.13) = \boxed{\,2.13\,}.
 \]
-This indicates the policy improves by about 0.186 when Fire is observed directly.
+Hence direct knowledge of \textit{Fire} is worth $2.13$ util\-ity units,
+because it prevents costly false alarms when $A$ mis-fires.
 
 \section*{Problem 2: Wandering Robot (20 points)}
 
@@ -199,36 +213,82 @@ Equivalently,
 
 % Further parts omitted for brevity
 
+% ------------------------------------------------------------------
 \bigskip
-\textbf{(b) State estimation with sensor readings:}
-Starting from the stationary prior $\pi$ at time~0, the one‐step prediction and update with $e_1=\text{wall}$ gives
+\textbf{(b) State estimation with sensor readings (filtering).}
+
+The sensor returns one of three labels—``wall'', ``\#'', or ``empty''—after
+looking in a uniformly random cardinal direction.  The relevant likelihoods are
+
 \[
-  P(X_1\mid e_1=\text{wall})
-  = (0.268097,\;0.201072,\;0.134048,\;0.128686,\;0,\;0.134048,\;0.134048).
+  \begin{array}{c|ccccccc}
+    \text{cell} & A & B & C & D & E & F & G\\ \hline
+    P(\text{wall}\mid X) & \tfrac12 & \tfrac14 & \tfrac12 &
+    \tfrac14 & 0 & \tfrac14 & \tfrac12 \\[2pt]
+    P(\text{\#}\mid   X) & 0 & 0 & \tfrac14 & \tfrac14 &
+    \tfrac14 & \tfrac14 & \tfrac14
+  \end{array}
 \]
-A further transition followed by observing $e_2=\#$ yields
+
+Starting from the stationary prior \(\pi\) and applying one transition,
+the predictive distribution is still \(\pi\) (because the chain is in equilibrium).
+Updating with the first observation \(e_1=\text{``wall''}\) gives
+
 \[
-  P(X_2\mid e_1,e_2)
-  = (0,\;0,\;0.111607,\;0.223214,\;0.330357,\;0.223214,\;0.111607).
+P(X_1\mid e_1)=
+\bigl(
+  \tfrac{4}{15},\;
+  \tfrac15,\;
+  \tfrac{2}{15},\;
+  \tfrac{2}{15},\;
+  0,\;
+  \tfrac{2}{15},\;
+  \tfrac{2}{15}
+\bigr).
+\]
+
+Next we perform a second transition and incorporate \(e_2=\text{\#}\):
+
+\[
+P(X_2\mid e_1,e_2)=
+\bigl(
+  0,\;
+  0,\;
+  \tfrac19,\;
+  \tfrac{2}{9},\;
+  \tfrac13,\;
+  \tfrac{2}{9},\;
+  \tfrac19
+\bigr).
 \]
 
 \bigskip
-\noindent\textbf{(c) Joint distribution and most likely two-step paths:}
+\textbf{(c) Joint distribution and most-likely two-step paths.}
 
-The (unnormalized) joint over $(X_1=i,X_2=j)$ given $e_1,e_2$ is
+For any \(i,j\in\{A,\dots,G\}\),
+
 \[
-  P(X_1=i,X_2=j\mid e_1,e_2)
-  = P(X_1=i\mid e_1)\;T_{i,j}\;P(e_2\mid X_2=j).
+P(X_1=i,X_2=j\mid e_1,e_2)=
+P(X_1=i\mid e_1)\;T_{ij}\;P(e_2\mid X_2=j),
 \]
-Only the following entries are nonzero after normalization:
+which, after normalisation, is non-zero only for the pairs below:
+
 \[
-  \begin{aligned}
-    P(A,D)&=0.223214, & P(B,C)&=0.111607, & P(B,E)&=0.111607,\\
-    P(D,E)&=0.107143, & P(F,E)&=0.111607, & P(F,G)&=0.111607,\\
-    P(G,F)&=0.223214.
-  \end{aligned}
+\begin{array}{c@{\;\to\;}c  c}
+  X_1 & X_2 & \;P(X_1,X_2\mid e_1,e_2) \\ \hline
+  A & D & \tfrac{2}{9} \\
+  G & F & \tfrac{2}{9} \\[2pt]
+  B & C & \tfrac19 \\
+  B & E & \tfrac19 \\
+  D & E & \tfrac19 \\
+  F & E & \tfrac19 \\
+  F & G & \tfrac19
+\end{array}
 \]
-The largest values $0.223214$ occur at $(A\to D)$ and $(G\to F)$, so those are the most likely two-step trajectories.
+
+Hence the two most likely two-step trajectories are
+\(\boxed{A\!\to\!D}\) and \(\boxed{G\!\to\!F}\), each with posterior
+probability \(2/9\).
 
 \bigskip
 \noindent\textbf{(d) Particle‐filter localization:}
@@ -276,79 +336,79 @@ These weights define how particles are sampled in the next iteration.
 \bigskip
 \section*{Problem 3: Naïve Bayes (20 points)}
 
-Consider the data set of eight samples with features $x_1,x_2\in\{0,1,2\}$ and binary class $Y\in\{0,1\}$:
+Consider eight samples with $x_1,x_2\in\{0,1,2\}$ and class $Y\in\{0,1\}$:
 \[
 \begin{array}{c|ccc}
-\text{Sample} & x_1 & x_2 & y\\\hline
-1 & 2 & 0 & 0\\
-2 & 2 & 2 & 0\\
-3 & 1 & 0 & 0\\
-4 & 1 & 2 & 0\\
-5 & 2 & 1 & 1\\
-6 & 1 & 1 & 1\\
-7 & 0 & 2 & 1\\
-8 & 0 & 2 & 1
+\text{Sample}&x_1&x_2&y\\\hline
+1&2&0&0\\
+2&2&2&0\\
+3&1&0&0\\
+4&1&2&0\\
+5&2&1&1\\
+6&1&1&1\\
+7&0&2&1\\
+8&0&2&1
 \end{array}
 \]
 
-\noindent\textbf{(a) Parameter estimation:}  
-With equal class counts (4 of each) and Laplace $\alpha=1$ smoothing over 3 feature values,
+\noindent\textbf{(a) Parameter estimation.}
+With $N_0=N_1=4$ and Laplace $\alpha=1$ over three values,
 \[
 P(Y=0)=P(Y=1)=0.5.
 \]
-The smoothed feature‐CPTs are
+Smoothed feature CPTs:
 \[
 \begin{aligned}
-P(x_1\mid Y=0)&:(0,1,2)\;=\;(1,3,3)/7, 
-&\quad P(x_2\mid Y=0)&:(0,1,2)\;=\;(3,1,3)/7,\\
-P(x_1\mid Y=1)&:(0,1,2)\;=\;(3,2,2)/7,
-&\quad P(x_2\mid Y=1)&:(0,1,2)\;=\;(1,3,3)/7.
+P(x_1\mid Y=0)&:(0,1,2)=(1,3,3)/7, &
+P(x_2\mid Y=0)&:(0,1,2)=(3,1,3)/7,\\
+P(x_1\mid Y=1)&:(0,1,2)=(3,2,2)/7, &
+P(x_2\mid Y=1)&:(0,1,2)=(1,3,3)/7.
 \end{aligned}
 \]
 
-\noindent\textbf{(b) Prediction and accuracy:}  
-For each $(x_1,x_2)$ compute likelihoods
+\noindent\textbf{(b) Prediction and accuracy.}
+For each $(x_1,x_2)$ compute
 \[
-L_0=P(x_1\mid0)\,P(x_2\mid0),
-\quad
-L_1=P(x_1\mid1)\,P(x_2\mid1),
+L_0=P(x_1\!\mid0)P(x_2\!\mid0),\;
+L_1=P(x_1\!\mid1)P(x_2\!\mid1).
 \]
-and choose the class with larger $L$.  One finds
-\begin{itemize}[nosep]
-  \item Samples 1–4: $L_0>L_1\;\Rightarrow\;\hat y=0$ (all correct).  
-  \item Sample 5:   $L_1>L_0\;\Rightarrow\;\hat y=1$ (correct).  
-  \item Samples 6–8: $L_1>L_0\;\Rightarrow\;\hat y=1$ (all correct).  
-\end{itemize}
-Thus all 8 predictions are correct, giving an overall accuracy of  
-\[
-\frac{8}{8}=100\%.\]
-
+Choosing the larger likelihood yields $\hat y$ correct for all eight samples, so the accuracy is $100\%$.
 
 \bigskip
-\noindent\textbf{(c) EM‐step: Expected class posteriors}
+\noindent\textbf{(c) E-step posteriors.}
+\[
+  P(Y=0\mid x)=\frac{L_0}{L_0+L_1},\qquad
+  P(Y=1\mid x)=1-P(Y=0\mid x).
+\]
+\[
+  \begin{array}{c|cc}
+    \text{Sample}&P(Y=0\mid x)&P(Y=1\mid x)\\\hline
+    1&(2,0)&(0.82,0.18)\\
+    2&(2,2)&(0.60,0.40)\\
+    3&(1,0)&(0.82,0.18)\\
+    4&(1,2)&(0.60,0.40)\\
+    5&(2,1)&(0.33,0.67)\\
+    6&(1,1)&(0.33,0.67)\\
+    7&(0,2)&(0.25,0.75)\\
+    8&(0,2)&(0.25,0.75)
+  \end{array}
+\]
 
-Using the CPTs from part (a), for each sample $(x_1,x_2)$ we compute
+\noindent\textbf{(d) M-step (no smoothing).}
+Soft counts give $N_0\!=\!4.003$, $N_1\!=\!3.997$, so
 \[
-  a_0 = P(Y=0)\,P(x_1\mid0)\,P(x_2\mid0),\quad
-  a_1 = P(Y=1)\,P(x_1\mid1)\,P(x_2\mid1),
+P(Y)=(0.500,\,0.500).
 \]
-and then normalize:
+Updated CPTs:
 \[
-  P(Y=0\mid x_1,x_2)=\frac{a_0}{a_0+a_1},\quad
-  P(Y=1\mid x_1,x_2)=\frac{a_1}{a_0+a_1}.
+\begin{aligned}
+  P(x_1\mid Y=0)&:(0,1,2)=(0.125,\,0.438,\,0.438),&
+  P(x_2\mid Y=0)&:(0,1,2)=(0.409,\,0.167,\,0.425),\\
+  P(x_1\mid Y=1)&:(0,1,2)=(0.375,\,0.312,\,0.312),&
+  P(x_2\mid Y=1)&:(0,1,2)=(0.091,\,0.334,\,0.575).
+\end{aligned}
 \]
-Evaluating for the eight samples gives:
-\begin{itemize}[nosep]
-  \item Sample 1 $(2,0):\;(0.82,\,0.18)$
-  \item Sample 2 $(2,2):\;(0.53,\,0.47)$
-  \item Sample 3 $(1,0):\;(0.75,\,0.25)$
-  \item Sample 4 $(1,2):\;(0.43,\,0.57)$
-  \item Sample 5 $(2,1):\;(0.50,\,0.50)$
-  \item Sample 6 $(1,1):\;(0.33,\,0.67)$
-  \item Sample 7 $(0,2):\;(0.20,\,0.80)$
-  \item Sample 8 $(0,2):\;(0.20,\,0.80)$
-\end{itemize}
-These normalized values are the “soft” class‐membership probabilities for the E‐step.```
+
 
 \section*{Problem\,4.5  \;--\;  Analysis of the Experimental Results}
 
